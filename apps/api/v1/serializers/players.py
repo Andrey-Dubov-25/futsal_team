@@ -30,5 +30,5 @@ class PlayerSerializer(serializers.ModelSerializer):
             'is_active',
         ]
 
-    def get_full_name(self, obj):
+    def get_full_name(self, obj) -> str:
         return f'{obj.last_name} {obj.first_name}'

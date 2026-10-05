@@ -60,7 +60,7 @@ class MatchSerializer(serializers.ModelSerializer):
             'events',
         ]
 
-    def get_result(self, obj):
+    def get_result(self, obj) -> str | None:
         if obj.status != Match.Status.FINISHED:
             return None
         if obj.our_score > obj.opponent_score:

@@ -6,27 +6,29 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 
+from apps.api.v1.filters import MatchFilter
 from apps.api.v1.serializers import MatchSerializer
 from apps.matches.models import Match
 
 
 class MatchViewSet(viewsets.ModelViewSet):
-    """CRUD-эндпоинт матчей + экшены upcoming и results."""
+    """CRUD-эндпоинт для матчей.
+
+    Поддерживает фильтрацию, поиск и сортировку:
+    - `?status=SCH`
+    - `?is_home=true`
+    - `?date_from=2026-01-01`
+    - `?search=динамо`
+    - `?ordering=-date`
+    """
 
     queryset = Match.objects.prefetch_related('events__player').all()
     serializer_class = MatchSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
-
-    def get_queryset(self):
-        qs = super().get_queryset()
-        status = self.request.query_params.get('status')
-        is_home = self.request.query_params.get('is_home')
-
-        if status:
-            qs = qs.filter(status=status)
-        if is_home is not None:
-            qs = qs.filter(is_home=is_home.lower() == 'true')
-        return qs
+    filterset_class = MatchFilter
+    search_fields = ['opponent', 'location']
+    ordering_fields = ['date', 'opponent']
+    ordering = ['-date']
 
     @action(detail=False, methods=['get'])
     def upcoming(self, request):
@@ -36,10 +38,14 @@ class MatchViewSet(viewsets.ModelViewSet):
             .filter(date__gte=timezone.now())
             .order_by('date')[:5]
         )
-        return Response(self.get_serializer(qs, many=True).data)
+        serializer = self.get_serializer(qs, many=True)
+        return Response(serializer.data)
 
     @action(detail=False, methods=['get'])
     def results(self, request):
         """Последние 10 завершённых матчей."""
-        qs = self.get_queryset().filter(status=Match.Status.FINISHED)[:10]
-        return Response(self.get_serializer(qs, many=True).data)
+        qs = self.get_queryset().filter(
+            status=Match.Status.FINISHED,
+        )[:10]
+        serializer = self.get_serializer(qs, many=True)
+        return Response(serializer.data)

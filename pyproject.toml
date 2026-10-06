@@ -38,7 +38,7 @@ ignore = [
 [tool.ruff.lint.per-file-ignores]
 "**/migrations/*.py" = ["E501", "N999"]
 "config/settings.py" = ["E501"]
-"**/tests/*.py" = ["S101", "S105", "S106"]
+"pytest_tests/**/*.py" = ["S101", "S105", "S106", "E501"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["apps", "config"]
@@ -65,7 +65,12 @@ python_files = ["test_*.py", "*_test.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
 addopts = "-ra --strict-markers --tb=short"
-testpaths = ["apps"]
+testpaths = ["pytest_tests"]
+markers = [
+    "api: тесты API-эндпоинтов",
+    "model: тесты моделей",
+    "slow: медленные тесты",
+]
 
 # =============================================================================
 # Coverage
@@ -88,4 +93,20 @@ exclude_lines = [
     "pragma: no cover",
     "if __name__ == .__main__.:",
     "raise NotImplementedError",
+]
+
+# =============================================================================
+# Bandit
+# =============================================================================
+
+[tool.bandit]
+exclude_dirs = [
+    "pytest_tests",
+    "apps/*/migrations",
+]
+
+[tool.bandit.assert_used]
+skips = [
+    "*pytest_tests/*",
+    "*test_*.py",
 ]

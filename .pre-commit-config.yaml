@@ -42,4 +42,9 @@ repos:
       - id: bandit
         args: ['-c', 'pyproject.toml']
         additional_dependencies: ['bandit[toml]']
-        exclude: ^(apps/.*/migrations/|.*/tests/)
+        exclude: |
+          (?x)(
+            ^apps/.*/migrations/ |
+            ^pytest_tests/ |
+            .*tests?/.*
+          )

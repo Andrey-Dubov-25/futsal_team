@@ -4,11 +4,13 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 from .views import (
+    AlbumViewSet,
     CommentViewSet,
     LogoutView,
     MatchViewSet,
     MeView,
     NewsPostViewSet,
+    PhotoViewSet,
     PlayerStatsViewSet,
     PlayerViewSet,
     RegisterView,
@@ -25,6 +27,8 @@ router.register('news', NewsPostViewSet, basename='news')
 router.register('comments', CommentViewSet, basename='comment')
 router.register('staff', StaffViewSet, basename='staff')
 router.register('trainings', TrainingViewSet, basename='training')
+router.register('albums', AlbumViewSet, basename='album')
+router.register('photos', PhotoViewSet, basename='photo')
 router.register(
     'stats/players',
     PlayerStatsViewSet,

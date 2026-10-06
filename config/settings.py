@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'apps.news',
     'apps.staff',
     'apps.training',
+    'apps.gallery',
     'apps.api',
 ]
 

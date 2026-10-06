@@ -12,16 +12,28 @@ from apps.players.models import Player
 from apps.staff.models import Staff
 from pytest_tests import constants as c
 from pytest_tests.factories import (
+    AlbumFactory,
     CommentFactory,
     FinishedMatchFactory,
     MatchEventFactory,
     MatchFactory,
     NewsPostFactory,
+    PhotoFactory,
     PlayerFactory,
     StaffFactory,
     TrainingFactory,
     UserFactory,
 )
+
+
+@pytest.fixture(autouse=True)
+def use_tmp_media_root(settings, tmp_path):
+    """Перенаправить MEDIA_ROOT в tmp_path для всех тестов.
+
+    Это гарантирует, что тестовые файлы не попадут в реальный
+    media/, а будут лежать во временной папке pytest.
+    """
+    settings.MEDIA_ROOT = tmp_path
 
 
 # =============================================================================
@@ -266,3 +278,20 @@ def cancelled_training(db, head_coach):
         coach=head_coach,
         is_cancelled=True,
     )
+
+
+# =============================================================================
+# Gallery
+# =============================================================================
+
+
+@pytest.fixture
+def album(db):
+    """Опубликованный альбом."""
+    return AlbumFactory(title='Матч с Динамо')
+
+
+@pytest.fixture
+def photo_in_album(db, album):
+    """Фотография в альбоме."""
+    return PhotoFactory(album=album, caption='Победный гол')

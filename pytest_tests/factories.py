@@ -3,9 +3,11 @@
 from datetime import timedelta
 
 import factory
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.utils import timezone
 
 from apps.accounts.models import User
+from apps.gallery.models import Album, Photo
 from apps.matches.models import Match, MatchEvent
 from apps.news.models import Comment, NewsPost
 from apps.players.models import Player
@@ -135,4 +137,41 @@ class UpcomingTrainingFactory(TrainingFactory):
 
     date = factory.LazyFunction(
         lambda: timezone.now() + timedelta(days=1),
+    )
+
+
+class AlbumFactory(factory.django.DjangoModelFactory):
+    """Фабрика альбома."""
+
+    class Meta:
+        model = Album
+
+    title = factory.Faker('sentence', locale='ru_RU', nb_words=4)
+    date = factory.LazyFunction(
+        lambda: timezone.now().date(),
+    )
+    is_published = True
+    order = 1
+
+
+class PhotoFactory(factory.django.DjangoModelFactory):
+    """Фабрика фотографии.
+
+    ImageField требует файл — передаём фиктивный через
+    SimpleUploadedFile. Реальный MEDIA_ROOT подменяется
+    фикстурой use_tmp_media_root в conftest.py.
+    """
+
+    class Meta:
+        model = Photo
+
+    album = factory.SubFactory(AlbumFactory)
+    caption = factory.Faker('sentence', locale='ru_RU')
+    order = 1
+    image = factory.LazyFunction(
+        lambda: SimpleUploadedFile(
+            'test.jpg',
+            b'fake-image-content',
+            content_type='image/jpeg',
+        ),
     )

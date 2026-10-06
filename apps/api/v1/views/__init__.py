@@ -2,6 +2,7 @@
 
 from .auth import LogoutView, MeView, RegisterView
 from .comments import CommentViewSet
+from .gallery import AlbumViewSet, PhotoViewSet
 from .matches import MatchViewSet
 from .news import NewsPostViewSet
 from .players import PlayerViewSet
@@ -22,4 +23,6 @@ __all__ = [
     'CommentViewSet',
     'StaffViewSet',
     'TrainingViewSet',
+    'AlbumViewSet',
+    'PhotoViewSet',
 ]

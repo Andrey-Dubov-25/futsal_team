@@ -6,6 +6,11 @@ from .auth import (
     UserSerializer,
 )
 from .comments import CommentCreateSerializer, CommentSerializer
+from .gallery import (
+    AlbumDetailSerializer,
+    AlbumListSerializer,
+    PhotoSerializer,
+)
 from .matches import MatchEventSerializer, MatchSerializer
 from .news import NewsPostSerializer
 from .players import PlayerSerializer
@@ -28,4 +33,7 @@ __all__ = [
     'CommentCreateSerializer',
     'StaffSerializer',
     'TrainingSerializer',
+    'AlbumListSerializer',
+    'AlbumDetailSerializer',
+    'PhotoSerializer',
 ]

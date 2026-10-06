@@ -8,6 +8,7 @@
 import pytest
 from rest_framework import status
 
+from pytest_tests import constants as c
 from pytest_tests.factories import CommentFactory
 
 
@@ -70,7 +71,6 @@ def test_create_empty_comment_fails(auth_client, published_news):
 
 def test_create_too_long_comment_fails(auth_client, published_news):
     """Слишком длинный текст — 400."""
-    from pytest_tests import constants as c
 
     response = auth_client.post(
         '/api/v1/comments/',

@@ -3,7 +3,7 @@
 from .matches import MatchEventSerializer, MatchSerializer
 from .news import NewsPostSerializer
 from .players import PlayerSerializer
-from .stats import PlayerStatsSerializer
+from .stats import PlayerStatsSerializer, TeamStatsSerializer
 
 
 __all__ = [
@@ -12,4 +12,5 @@ __all__ = [
     'MatchEventSerializer',
     'NewsPostSerializer',
     'PlayerStatsSerializer',
+    'TeamStatsSerializer',
 ]

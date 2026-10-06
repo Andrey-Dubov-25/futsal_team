@@ -3,7 +3,7 @@
 from .matches import MatchViewSet
 from .news import NewsPostViewSet
 from .players import PlayerViewSet
-from .stats import PlayerStatsViewSet
+from .stats import PlayerStatsViewSet, TeamStatsViewSet
 
 
 __all__ = [
@@ -11,4 +11,5 @@ __all__ = [
     'MatchViewSet',
     'NewsPostViewSet',
     'PlayerStatsViewSet',
+    'TeamStatsViewSet',
 ]

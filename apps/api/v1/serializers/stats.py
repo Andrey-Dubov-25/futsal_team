@@ -17,3 +17,19 @@ class PlayerStatsSerializer(serializers.Serializer):
     red_cards = serializers.IntegerField()
     matches_played = serializers.IntegerField()
     points = serializers.IntegerField()
+
+
+class TeamStatsSerializer(serializers.Serializer):
+    """Общая статистика команды."""
+
+    matches_total = serializers.IntegerField()
+    matches_won = serializers.IntegerField()
+    matches_drawn = serializers.IntegerField()
+    matches_lost = serializers.IntegerField()
+    goals_scored = serializers.IntegerField()
+    goals_conceded = serializers.IntegerField()
+    goal_difference = serializers.IntegerField()
+    avg_goals_scored = serializers.FloatField()
+    avg_goals_conceded = serializers.FloatField()
+    win_rate = serializers.FloatField()
+    form = serializers.ListField(child=serializers.CharField())

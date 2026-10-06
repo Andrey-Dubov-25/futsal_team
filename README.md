@@ -1,5 +1,7 @@
 # Futsal Team
 
+![CI](https://github.com/Andrey-Dubov-25/futsal_team/actions/workflows/ci.yml/badge.svg)
+
 Сайт мини-футбольной команды: расписание матчей, состав, статистика игроков, новости.
 
 ## Стек

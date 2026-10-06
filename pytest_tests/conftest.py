@@ -1,18 +1,25 @@
 """Глобальные фикстуры для всех тестов проекта."""
 
+from datetime import timedelta
+
 import pytest
+from django.utils import timezone
 from rest_framework.test import APIClient
 
 from apps.accounts.models import User
 from apps.matches.models import Match, MatchEvent
 from apps.players.models import Player
+from apps.staff.models import Staff
 from pytest_tests import constants as c
 from pytest_tests.factories import (
+    CommentFactory,
     FinishedMatchFactory,
     MatchEventFactory,
     MatchFactory,
     NewsPostFactory,
     PlayerFactory,
+    StaffFactory,
+    TrainingFactory,
     UserFactory,
 )
 
@@ -179,7 +186,6 @@ def draft_news(db):
 @pytest.fixture
 def comment_on_news(db, published_news, user):
     """Комментарий пользователя к опубликованной новости."""
-    from pytest_tests.factories import CommentFactory
 
     return CommentFactory(
         post=published_news,
@@ -192,3 +198,71 @@ def comment_on_news(db, published_news, user):
 def another_user(db):
     """Второй пользователь для тестов прав доступа."""
     return UserFactory(username='another1')
+
+
+# =============================================================================
+# Staff
+# =============================================================================
+
+
+@pytest.fixture
+def head_coach(db):
+    """Главный тренер."""
+
+    return StaffFactory(
+        first_name='Виктор',
+        last_name='Победоносцев',
+        role=Staff.Role.HEAD_COACH,
+        order=1,
+    )
+
+
+@pytest.fixture
+def assistant_coach(db):
+    """Ассистент."""
+
+    return StaffFactory(
+        first_name='Андрей',
+        last_name='Помощников',
+        role=Staff.Role.ASSISTANT,
+        order=2,
+    )
+
+
+# =============================================================================
+# Training
+# =============================================================================
+
+
+@pytest.fixture
+def past_training(db, head_coach):
+    """Прошедшая тренировка."""
+
+    return TrainingFactory(
+        title='Прошедшая',
+        date=timezone.now() - timedelta(days=7),
+        coach=head_coach,
+    )
+
+
+@pytest.fixture
+def upcoming_training(db, head_coach):
+    """Будущая тренировка."""
+
+    return TrainingFactory(
+        title='Будущая',
+        date=timezone.now() + timedelta(days=1),
+        coach=head_coach,
+    )
+
+
+@pytest.fixture
+def cancelled_training(db, head_coach):
+    """Отменённая тренировка."""
+
+    return TrainingFactory(
+        title='Отменённая',
+        date=timezone.now() + timedelta(days=2),
+        coach=head_coach,
+        is_cancelled=True,
+    )

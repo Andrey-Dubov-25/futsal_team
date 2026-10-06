@@ -13,6 +13,7 @@ import pytest
 from django.db import IntegrityError
 
 from apps.players.models import Player
+from pytest_tests.factories import PlayerFactory
 
 
 pytestmark = pytest.mark.model
@@ -64,7 +65,6 @@ def test_player_number_is_unique(forward):
 
 def test_player_ordering_by_number(db):
     """По умолчанию игроки сортируются по номеру."""
-    from pytest_tests.factories import PlayerFactory
 
     PlayerFactory(number=10)
     PlayerFactory(number=1)

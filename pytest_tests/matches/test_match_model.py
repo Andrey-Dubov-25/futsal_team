@@ -12,6 +12,7 @@ from django.utils import timezone
 
 from apps.matches.models import Match, MatchEvent
 from pytest_tests import constants as c
+from pytest_tests.factories import MatchFactory
 
 
 pytestmark = pytest.mark.model
@@ -40,7 +41,6 @@ def test_match_status_display(finished_match):
 
 def test_match_ordering_by_date_desc(db):
     """Матчи сортируются по дате (свежие сверху)."""
-    from pytest_tests.factories import MatchFactory
 
     MatchFactory(date=timezone.now() - timedelta(days=10))
     MatchFactory(date=timezone.now())

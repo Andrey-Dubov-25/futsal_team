@@ -12,7 +12,9 @@ from .views import (
     PlayerStatsViewSet,
     PlayerViewSet,
     RegisterView,
+    StaffViewSet,
     TeamStatsViewSet,
+    TrainingViewSet,
 )
 
 
@@ -21,6 +23,8 @@ router.register('players', PlayerViewSet, basename='player')
 router.register('matches', MatchViewSet, basename='match')
 router.register('news', NewsPostViewSet, basename='news')
 router.register('comments', CommentViewSet, basename='comment')
+router.register('staff', StaffViewSet, basename='staff')
+router.register('trainings', TrainingViewSet, basename='training')
 router.register(
     'stats/players',
     PlayerStatsViewSet,

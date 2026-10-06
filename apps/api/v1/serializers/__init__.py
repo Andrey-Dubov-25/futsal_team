@@ -9,7 +9,9 @@ from .comments import CommentCreateSerializer, CommentSerializer
 from .matches import MatchEventSerializer, MatchSerializer
 from .news import NewsPostSerializer
 from .players import PlayerSerializer
+from .staff import StaffSerializer
 from .stats import PlayerStatsSerializer, TeamStatsSerializer
+from .training import TrainingSerializer
 
 
 __all__ = [
@@ -24,4 +26,6 @@ __all__ = [
     'UpdateProfileSerializer',
     'CommentSerializer',
     'CommentCreateSerializer',
+    'StaffSerializer',
+    'TrainingSerializer',
 ]

@@ -1,5 +1,7 @@
 """Фабрики моделей для тестов."""
 
+from datetime import timedelta
+
 import factory
 from django.utils import timezone
 
@@ -7,6 +9,8 @@ from apps.accounts.models import User
 from apps.matches.models import Match, MatchEvent
 from apps.news.models import Comment, NewsPost
 from apps.players.models import Player
+from apps.staff.models import Staff
+from apps.training.models import Training
 from pytest_tests import constants as c
 
 
@@ -99,3 +103,36 @@ class CommentFactory(factory.django.DjangoModelFactory):
     author = factory.SubFactory(UserFactory)
     text = factory.Faker('sentence', locale='ru_RU')
     is_published = True
+
+
+class StaffFactory(factory.django.DjangoModelFactory):
+    """Фабрика сотрудника."""
+
+    class Meta:
+        model = Staff
+
+    first_name = factory.Faker('first_name', locale='ru_RU')
+    last_name = factory.Faker('last_name', locale='ru_RU')
+    role = Staff.Role.HEAD_COACH
+    is_active = True
+    order = 1
+
+
+class TrainingFactory(factory.django.DjangoModelFactory):
+    """Фабрика тренировки."""
+
+    class Meta:
+        model = Training
+
+    title = 'Основная тренировка'
+    date = factory.LazyFunction(timezone.now)
+    location = 'Дом'
+    is_cancelled = False
+
+
+class UpcomingTrainingFactory(TrainingFactory):
+    """Тренировка в будущем."""
+
+    date = factory.LazyFunction(
+        lambda: timezone.now() + timedelta(days=1),
+    )

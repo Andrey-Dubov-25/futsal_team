@@ -4,6 +4,7 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 from .views import (
+    CommentViewSet,
     LogoutView,
     MatchViewSet,
     MeView,
@@ -19,6 +20,7 @@ router = DefaultRouter()
 router.register('players', PlayerViewSet, basename='player')
 router.register('matches', MatchViewSet, basename='match')
 router.register('news', NewsPostViewSet, basename='news')
+router.register('comments', CommentViewSet, basename='comment')
 router.register(
     'stats/players',
     PlayerStatsViewSet,

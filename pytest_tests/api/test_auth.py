@@ -83,7 +83,7 @@ def test_refresh_token(api_client, user):
     assert 'access' in response.data
 
 
-def test_register_new_user(api_client):
+def test_register_new_user(db, api_client):
     """POST /auth/register/ создаёт пользователя и возвращает токены."""
     response = api_client.post(
         '/api/v1/auth/register/',
@@ -119,7 +119,7 @@ def test_register_duplicate_username(api_client, user):
     assert 'username' in response.data
 
 
-def test_register_password_mismatch(api_client):
+def test_register_password_mismatch(db, api_client):
     """Несовпадающие пароли — 400."""
     response = api_client.post(
         '/api/v1/auth/register/',

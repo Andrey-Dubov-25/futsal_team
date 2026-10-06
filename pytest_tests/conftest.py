@@ -169,3 +169,26 @@ def draft_news(db):
     """Черновик новости."""
     author = UserFactory(username='author2')
     return NewsPostFactory(author=author, is_published=False)
+
+
+# =============================================================================
+# Комментарии
+# =============================================================================
+
+
+@pytest.fixture
+def comment_on_news(db, published_news, user):
+    """Комментарий пользователя к опубликованной новости."""
+    from pytest_tests.factories import CommentFactory
+
+    return CommentFactory(
+        post=published_news,
+        author=user,
+        text='Отличная победа!',
+    )
+
+
+@pytest.fixture
+def another_user(db):
+    """Второй пользователь для тестов прав доступа."""
+    return UserFactory(username='another1')

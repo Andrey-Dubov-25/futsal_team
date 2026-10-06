@@ -1,6 +1,7 @@
 """ViewSet'ы API v1."""
 
 from .auth import LogoutView, MeView, RegisterView
+from .comments import CommentViewSet
 from .matches import MatchViewSet
 from .news import NewsPostViewSet
 from .players import PlayerViewSet
@@ -16,4 +17,5 @@ __all__ = [
     'RegisterView',
     'MeView',
     'LogoutView',
+    'CommentViewSet',
 ]

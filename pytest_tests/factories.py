@@ -5,7 +5,7 @@ from django.utils import timezone
 
 from apps.accounts.models import User
 from apps.matches.models import Match, MatchEvent
-from apps.news.models import NewsPost
+from apps.news.models import Comment, NewsPost
 from apps.players.models import Player
 from pytest_tests import constants as c
 
@@ -86,4 +86,16 @@ class NewsPostFactory(factory.django.DjangoModelFactory):
     title = factory.Faker('sentence', locale='ru_RU')
     excerpt = factory.Faker('sentence', locale='ru_RU')
     content = factory.Faker('paragraph', locale='ru_RU')
+    is_published = True
+
+
+class CommentFactory(factory.django.DjangoModelFactory):
+    """Фабрика комментария."""
+
+    class Meta:
+        model = Comment
+
+    post = factory.SubFactory(NewsPostFactory)
+    author = factory.SubFactory(UserFactory)
+    text = factory.Faker('sentence', locale='ru_RU')
     is_published = True

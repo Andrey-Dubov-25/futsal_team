@@ -5,6 +5,7 @@ from .auth import (
     UpdateProfileSerializer,
     UserSerializer,
 )
+from .comments import CommentCreateSerializer, CommentSerializer
 from .matches import MatchEventSerializer, MatchSerializer
 from .news import NewsPostSerializer
 from .players import PlayerSerializer
@@ -21,4 +22,6 @@ __all__ = [
     'UserSerializer',
     'RegisterSerializer',
     'UpdateProfileSerializer',
+    'CommentSerializer',
+    'CommentCreateSerializer',
 ]

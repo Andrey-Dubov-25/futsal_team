@@ -1,5 +1,10 @@
 """Сериализаторы API v1."""
 
+from .auth import (
+    RegisterSerializer,
+    UpdateProfileSerializer,
+    UserSerializer,
+)
 from .matches import MatchEventSerializer, MatchSerializer
 from .news import NewsPostSerializer
 from .players import PlayerSerializer
@@ -13,4 +18,7 @@ __all__ = [
     'NewsPostSerializer',
     'PlayerStatsSerializer',
     'TeamStatsSerializer',
+    'UserSerializer',
+    'RegisterSerializer',
+    'UpdateProfileSerializer',
 ]

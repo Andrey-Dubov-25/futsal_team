@@ -171,9 +171,11 @@ def sample_players(db):
 
 @pytest.fixture
 def scheduled_match(db):
-    """Запланированный матч без счёта."""
+    """Запланированный матч в будущем без счёта."""
+
     return MatchFactory(
         status=Match.Status.SCHEDULED,
+        date=timezone.now() + timedelta(days=7),
         our_score=None,
         opponent_score=None,
     )
@@ -194,6 +196,39 @@ def goal_event(db, finished_match, forward):
         event_type=MatchEvent.EventType.GOAL,
         minute=c.TEST_EVENT_MINUTE,
     )
+
+
+@pytest.fixture
+def match_with_events(db, sample_players):
+    """Завершённый матч 3:1 с событиями для тестов статистики."""
+    from apps.matches.models import MatchEvent
+
+    match = FinishedMatchFactory(
+        our_score=c.TEST_GOALS_SCORED,
+        opponent_score=c.TEST_GOALS_CONCEDED,
+    )
+    forward = sample_players[2]
+    defender = sample_players[1]
+
+    MatchEventFactory(
+        match=match,
+        player=forward,
+        event_type=MatchEvent.EventType.GOAL,
+        minute=5,
+    )
+    MatchEventFactory(
+        match=match,
+        player=forward,
+        event_type=MatchEvent.EventType.GOAL,
+        minute=15,
+    )
+    MatchEventFactory(
+        match=match,
+        player=defender,
+        event_type=MatchEvent.EventType.ASSIST,
+        minute=5,
+    )
+    return match
 
 
 # =============================================================================

@@ -9,7 +9,9 @@
         Домашняя арена — стадион «Дружба». Играем в городской любительской лиге.
     </p>
     <div class="hero__actions">
-        <a href="#" class="btn btn--primary">Смотреть матчи</a>
+        <a href="{% url 'web:matches-list' %}" class="btn btn--primary">
+            Смотреть матчи
+        </a>
         <a href="{% url 'web:players-list' %}" class="btn btn--ghost">
             Состав команды
         </a>
@@ -20,8 +22,10 @@
     <h2 class="section__title">Скоро на сайте</h2>
     <div class="cards">
         <article class="card">
-            <h3>Матчи</h3>
-            <p>Расписание ближайших игр и результаты прошедших.</p>
+            <a href="{% url 'web:matches-list' %}" class="card">
+                <h3>Матчи</h3>
+                <p>Расписание ближайших игр и результаты прошедших.</p>
+            </a>
         </article>
         <article class="card">
             <a href="{% url 'web:players-list' %}" class="card">

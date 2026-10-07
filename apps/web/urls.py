@@ -15,4 +15,10 @@ urlpatterns = [
         views.player_detail,
         name='player-detail',
     ),
+    path('matches/', views.matches_list, name='matches-list'),
+    path(
+        'matches/<int:pk>/',
+        views.match_detail,
+        name='match-detail',
+    ),
 ]

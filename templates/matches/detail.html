@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ match.opponent }} — Матч{% endblock %}
+
+{% block content %}
+<section class="section">
+    <a href="{% url 'web:matches-list' %}" class="back-link">
+        ← Вернуться к матчам
+    </a>
+
+    <div class="match-hero">
+        <div class="match-hero__meta">
+            {{ match.date|date:"d.m.Y H:i" }} · {{ match.location }}
+        </div>
+
+        <div class="match-hero__scoreboard">
+            <div class="match-hero__team">
+                <div class="match-hero__logo">ФК</div>
+                <div class="match-hero__name">Наша команда</div>
+            </div>
+
+            <div class="match-hero__score">
+                {% if match.status == 'FIN' %}
+                    <span class="score score--{{ match.result|lower }}">
+                        {{ match.our_score }} : {{ match.opponent_score }}
+                    </span>
+                    <div class="match-hero__result">
+                        {% if match.result == 'W' %}Победа
+                        {% elif match.result == 'L' %}Поражение
+                        {% elif match.result == 'D' %}Ничья
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <div class="match-hero__vs">vs</div>
+                    <div class="match-hero__status">
+                        {{ match.get_status_display }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="match-hero__team">
+                <div class="match-hero__logo">
+                    {% if match.opponent_logo %}
+                        <img src="{{ match.opponent_logo.url }}"
+                             alt="{{ match.opponent }}">
+                    {% else %}
+                        {{ match.opponent|slice:":2"|upper }}
+                    {% endif %}
+                </div>
+                <div class="match-hero__name">{{ match.opponent }}</div>
+            </div>
+        </div>
+
+        {% if match.comment %}
+            <p class="match-hero__comment">{{ match.comment }}</p>
+        {% endif %}
+    </div>
+
+    {% if events %}
+        <h2 class="section__title">Ход матча</h2>
+        <ul class="event-list">
+            {% for event in events %}
+                <li class="event-item">
+                    <span class="event-item__minute">
+                        {{ event.minute }}'
+                    </span>
+                    <span class="event-item__type event-item__type--{{ event.event_type|lower }}">
+                        {{ event.get_event_type_display }}
+                    </span>
+                    <span class="event-item__player">
+                        <a href="{% url 'web:player-detail' event.player.pk %}">
+                            {{ event.player.full_name }}
+                        </a>
+                        <span class="event-item__player-number">
+                            #{{ event.player.number|default:"—" }}
+                        </span>
+                    </span>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</section>
+{% endblock %}

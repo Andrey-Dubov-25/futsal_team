@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ player.full_name }} — Состав{% endblock %}
+
+{% block content %}
+<section class="section">
+    <a href="{% url 'web:players-list' %}" class="back-link">
+        ← Вернуться к составу
+    </a>
+
+    <div class="player-detail">
+        <div class="player-detail__photo">
+            {% if player.photo %}
+                <img src="{{ player.photo.url }}"
+                     alt="{{ player.full_name }}">
+            {% else %}
+                <div class="player-detail__photo-placeholder">
+                    {{ player.number|default:"—" }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="player-detail__info">
+            <div class="player-detail__number">
+                #{{ player.number|default:"—" }}
+            </div>
+            <h1 class="player-detail__name">
+                {{ player.last_name }} {{ player.first_name }}
+            </h1>
+            {% if player.nickname %}
+                <p class="player-detail__nickname">
+                    «{{ player.nickname }}»
+                </p>
+            {% endif %}
+
+            <dl class="info-list">
+                <dt>Позиция</dt>
+                <dd>{{ player.get_position_display }}</dd>
+
+                {% if player.birth_date %}
+                    <dt>Дата рождения</dt>
+                    <dd>{{ player.birth_date|date:"d.m.Y" }}</dd>
+                {% endif %}
+
+                {% if player.bio %}
+                    <dt>О игроке</dt>
+                    <dd>{{ player.bio }}</dd>
+                {% endif %}
+            </dl>
+        </div>
+    </div>
+
+    {% if events %}
+        <div class="section">
+            <h2 class="section__title">Последние события</h2>
+            <ul class="event-list">
+                {% for event in events %}
+                    <li class="event-item">
+                        <span class="event-item__minute">
+                            {{ event.minute }}'
+                        </span>
+                        <span class="event-item__type event-item__type--{{ event.event_type|lower }}">
+                            {{ event.get_event_type_display }}
+                        </span>
+                        <a href="#"
+                           class="event-item__match">
+                            {{ event.match.opponent }}
+                            ({{ event.match.date|date:"d.m.Y" }})
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

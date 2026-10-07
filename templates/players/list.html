@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Состав команды — Мини-футбольная команда{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="page-header">
+        <h1 class="page-header__title">Состав команды</h1>
+        <p class="page-header__subtitle">
+            {{ players|length }} игроков в активном составе
+        </p>
+    </div>
+
+    {% if players %}
+        <div class="players-grid">
+            {% for player in players %}
+                <a href="{% url 'web:player-detail' player.pk %}"
+                   class="player-card">
+                    <div class="player-card__photo">
+                        {% if player.photo %}
+                            <img src="{{ player.photo.url }}"
+                                 alt="{{ player.full_name }}">
+                        {% else %}
+                            <div class="player-card__photo-placeholder">
+                                {{ player.number|default:"—" }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="player-card__number">
+                        #{{ player.number|default:"—" }}
+                    </div>
+                    <div class="player-card__name">
+                        {{ player.last_name }}<br>
+                        <span class="player-card__first-name">
+                            {{ player.first_name }}
+                        </span>
+                    </div>
+                    <div class="player-card__position">
+                        {{ player.get_position_display }}
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <p>В команде пока нет игроков.</p>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

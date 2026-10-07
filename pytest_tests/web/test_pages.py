@@ -7,6 +7,7 @@
 
 import pytest
 from django.urls import reverse
+from rest_framework import status
 
 
 pytestmark = pytest.mark.django_db
@@ -15,7 +16,7 @@ pytestmark = pytest.mark.django_db
 def test_homepage_returns_200(client):
     """Главная страница открывается."""
     response = client.get(reverse('web:home'))
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
 
 def test_homepage_uses_base_template(client):

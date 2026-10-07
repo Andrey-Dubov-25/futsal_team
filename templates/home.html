@@ -10,7 +10,9 @@
     </p>
     <div class="hero__actions">
         <a href="#" class="btn btn--primary">Смотреть матчи</a>
-        <a href="#" class="btn btn--ghost">Состав команды</a>
+        <a href="{% url 'web:players-list' %}" class="btn btn--ghost">
+            Состав команды
+        </a>
     </div>
 </section>
 
@@ -22,8 +24,10 @@
             <p>Расписание ближайших игр и результаты прошедших.</p>
         </article>
         <article class="card">
-            <h3>Состав</h3>
-            <p>Карточки игроков: номера, позиции, фото.</p>
+            <a href="{% url 'web:players-list' %}" class="card">
+                <h3>Состав</h3>
+                <p>Карточки игроков: номера, позиции, фото.</p>
+            </a>
         </article>
         <article class="card">
             <h3>Статистика</h3>

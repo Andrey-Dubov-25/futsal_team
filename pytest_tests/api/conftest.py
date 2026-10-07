@@ -3,38 +3,11 @@
 import pytest
 
 from apps.matches.models import MatchEvent
-from apps.players.models import Player
 from pytest_tests import constants as c
 from pytest_tests.factories import (
     FinishedMatchFactory,
     MatchEventFactory,
-    PlayerFactory,
 )
-
-
-@pytest.fixture
-def sample_players(db):
-    """Набор из трёх игроков разных позиций."""
-    return [
-        PlayerFactory(
-            first_name='Иван',
-            last_name='Вратарёв',
-            number=1,
-            position=Player.Position.GOALKEEPER,
-        ),
-        PlayerFactory(
-            first_name='Пётр',
-            last_name='Защитников',
-            number=7,
-            position=Player.Position.DEFENDER,
-        ),
-        PlayerFactory(
-            first_name='Сергей',
-            last_name='Голеадоров',
-            number=10,
-            position=Player.Position.FORWARD,
-        ),
-    ]
 
 
 @pytest.fixture

@@ -4,14 +4,14 @@
             ⚽ ФК «Футзал»
         </a>
 
-        <nav class="header__nav">
-            <a href="{% url 'web:home' %}">Главная</a>
-            <a href="#">Состав</a>
-            <a href="#">Матчи</a>
-            <a href="#">Новости</a>
-            <a href="#">Статистика</a>
-            <a href="#">Галерея</a>
-        </nav>
+            <nav class="header__nav">
+                <a href="{% url 'web:home' %}">Главная</a>
+                <a href="{% url 'web:players-list' %}">Состав</a>
+                <a href="#">Матчи</a>
+                <a href="#">Новости</a>
+                <a href="#">Статистика</a>
+                <a href="#">Галерея</a>
+            </nav>
 
         <div class="header__auth">
             <a href="{% url 'admin:index' %}" class="btn btn--ghost">Админка</a>

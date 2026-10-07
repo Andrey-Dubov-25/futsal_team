@@ -291,3 +291,285 @@ main.container {
         text-align: center;
     }
 }
+
+/* ============================================================================
+   Page header
+   ========================================================================= */
+
+.page-header {
+    margin-bottom: 32px;
+}
+
+.page-header__title {
+    font-size: 32px;
+    margin: 0 0 8px;
+}
+
+.page-header__subtitle {
+    color: var(--color-text-muted);
+    margin: 0;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 24px;
+    color: var(--color-text-muted);
+    font-size: 14px;
+}
+
+.back-link:hover {
+    color: var(--color-primary);
+}
+
+/* ============================================================================
+   Players grid
+   ========================================================================= */
+
+.players-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.player-card {
+    display: block;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    color: var(--color-text);
+    text-decoration: none;
+    transition: transform 0.15s, box-shadow 0.15s;
+    position: relative;
+}
+
+.player-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    color: var(--color-text);
+}
+
+.player-card__photo {
+    aspect-ratio: 1;
+    background: var(--color-bg);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.player-card__photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.player-card__photo-placeholder {
+    font-size: 64px;
+    font-weight: 700;
+    color: var(--color-primary);
+    opacity: 0.3;
+}
+
+.player-card__number {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--color-primary);
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 4px 10px;
+    border-radius: 4px;
+}
+
+.player-card__name {
+    padding: 16px 16px 4px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1.3;
+}
+
+.player-card__first-name {
+    font-weight: 400;
+    color: var(--color-text-muted);
+    font-size: 14px;
+}
+
+.player-card__position {
+    padding: 0 16px 16px;
+    font-size: 13px;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ============================================================================
+   Player detail
+   ========================================================================= */
+
+.player-detail {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 40px;
+    margin-bottom: 48px;
+    align-items: start;
+}
+
+.player-detail__photo {
+    aspect-ratio: 1;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.player-detail__photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.player-detail__photo-placeholder {
+    font-size: 96px;
+    font-weight: 700;
+    color: var(--color-primary);
+    opacity: 0.3;
+}
+
+.player-detail__number {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-primary);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.player-detail__name {
+    font-size: 32px;
+    margin: 8px 0 8px;
+}
+
+.player-detail__nickname {
+    color: var(--color-text-muted);
+    font-style: italic;
+    margin: 0 0 24px;
+}
+
+.info-list {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 8px 16px;
+    margin: 0;
+}
+
+.info-list dt {
+    color: var(--color-text-muted);
+    font-size: 14px;
+}
+
+.info-list dd {
+    margin: 0;
+}
+
+/* ============================================================================
+   Event list
+   ========================================================================= */
+
+.event-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.event-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 16px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    margin-bottom: 8px;
+}
+
+.event-item__minute {
+    font-weight: 700;
+    color: var(--color-primary);
+    min-width: 40px;
+}
+
+.event-item__type {
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    background: var(--color-bg);
+}
+
+.event-item__type--goal {
+    background: #d1e7dd;
+    color: #0a3622;
+}
+
+.event-item__type--assist {
+    background: #cfe2ff;
+    color: #052c65;
+}
+
+.event-item__type--yellow {
+    background: #fff3cd;
+    color: #664d03;
+}
+
+.event-item__type--red {
+    background: #f8d7da;
+    color: #58151c;
+}
+
+.event-item__match {
+    color: var(--color-text-muted);
+    margin-left: auto;
+    font-size: 14px;
+}
+
+/* ============================================================================
+   Empty state
+   ========================================================================= */
+
+.empty-state {
+    padding: 48px 24px;
+    background: var(--color-surface);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius);
+    text-align: center;
+    color: var(--color-text-muted);
+}
+
+/* ============================================================================
+   Адаптив
+   ========================================================================= */
+
+@media (max-width: 640px) {
+    .player-detail {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .player-detail__photo {
+        max-width: 240px;
+        margin: 0 auto;
+    }
+
+    .info-list {
+        grid-template-columns: 1fr;
+        gap: 4px;
+    }
+
+    .info-list dt {
+        margin-top: 8px;
+    }
+}

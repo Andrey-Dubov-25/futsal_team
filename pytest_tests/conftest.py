@@ -139,6 +139,31 @@ def forward(db):
     )
 
 
+@pytest.fixture
+def sample_players(db):
+    """Набор из трёх игроков разных позиций."""
+    return [
+        PlayerFactory(
+            first_name='Иван',
+            last_name='Вратарёв',
+            number=1,
+            position=Player.Position.GOALKEEPER,
+        ),
+        PlayerFactory(
+            first_name='Пётр',
+            last_name='Защитников',
+            number=7,
+            position=Player.Position.DEFENDER,
+        ),
+        PlayerFactory(
+            first_name='Сергей',
+            last_name='Голеадоров',
+            number=10,
+            position=Player.Position.FORWARD,
+        ),
+    ]
+
+
 # =============================================================================
 # Матчи
 # =============================================================================

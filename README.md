@@ -52,3 +52,29 @@ source .venv/Scripts/activate   # Windows / Git Bash
 # source .venv/bin/activate     # Linux / macOS
 pip install -r requirements-dev.txt
 pre-commit install
+
+
+
+### Продакшн (на сервере)
+
+```bash
+# 1. Клонировать репозиторий
+git clone https://github.com/Andrey-Dubov-25/futsal_team.git
+cd futsal_team
+
+# 2. Создать .env.prod
+cp .env.prod.example .env.prod
+nano .env.prod  # заменить SECRET_KEY, пароль БД, домен
+
+# 3. Сгенерировать SECRET_KEY
+python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+
+# 4. Поднять
+docker compose -f docker-compose.prod.yml up -d --build
+
+# 5. Создать суперпользователя
+docker compose -f docker-compose.prod.yml exec web python manage.py createsuperuser
+
+# Проверка
+docker compose -f docker-compose.prod.yml ps
+docker compose -f docker-compose.prod.yml logs -f web

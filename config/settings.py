@@ -178,3 +178,57 @@ SITE_URL = env('SITE_URL', default='http://localhost:8000')
 SITE_NAME = c.SITE_NAME
 SITE_DESCRIPTION = c.SITE_DESCRIPTION
 SITE_KEYWORDS = c.SITE_KEYWORDS
+
+
+# =============================================================================
+# Production settings
+# =============================================================================
+
+if not DEBUG:
+    # Безопасность
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    X_FRAME_OPTIONS = 'DENY'
+    SESSION_COOKIE_SECURE = env.bool(
+        'SESSION_COOKIE_SECURE',
+        default=False,
+    )
+    CSRF_COOKIE_SECURE = env.bool(
+        'CSRF_COOKIE_SECURE',
+        default=False,
+    )
+
+    # За прокси (nginx) — чтобы Django знал схему (http/https)
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+    # Логирование
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'formatters': {
+            'verbose': {
+                'format': (
+                    '{levelname} {asctime} {module} '
+                    '{process:d} {thread:d} {message}'
+                ),
+                'style': '{',
+            },
+        },
+        'handlers': {
+            'console': {
+                'class': 'logging.StreamHandler',
+                'formatter': 'verbose',
+            },
+        },
+        'root': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+        'loggers': {
+            'django': {
+                'handlers': ['console'],
+                'level': 'INFO',
+                'propagate': False,
+            },
+        },
+    }

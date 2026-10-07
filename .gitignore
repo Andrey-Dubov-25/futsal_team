@@ -160,3 +160,6 @@ sent_emails/
 # IDE
 *.swp
 *.swo
+.env.prod
+.env.production
+*.sqlite3

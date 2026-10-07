@@ -2,6 +2,7 @@
 
 from django.db import models
 from django.utils.text import slugify
+from unidecode import unidecode
 
 from config import constants as c
 
@@ -56,8 +57,12 @@ class Album(models.Model):
         return f'{self.title} ({self.date:%d.%m.%Y})'
 
     def save(self, *args, **kwargs):
+        """Сгенерировать ASCII-slug из заголовка при первом сохранении."""
         if not self.slug:
-            self.slug = slugify(self.title, allow_unicode=True)
+            transliterated = unidecode(self.title)
+            self.slug = slugify(transliterated)
+            if not self.slug:
+                self.slug = f'album-{self.pk or "new"}'
         super().save(*args, **kwargs)
 
 

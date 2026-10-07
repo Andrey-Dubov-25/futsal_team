@@ -1,12 +1,14 @@
 """View-функции для HTML-страниц."""
 
 from django.contrib.auth.decorators import login_required
+from django.db.models import Count
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 
+from apps.gallery.models import Album
 from apps.matches.models import Match
 from apps.news.models import NewsPost
 from apps.players.models import Player
@@ -171,4 +173,34 @@ def stats_team(request):
         request,
         'stats/team.html',
         {'stats': stats},
+    )
+
+
+def gallery_list(request):
+    """Список опубликованных альбомов."""
+    albums = (
+        Album.objects.filter(is_published=True)
+        .annotate(photos_count=Count('photos'))
+        .select_related('match')
+        .order_by('-date', 'order')
+    )
+    return render(
+        request,
+        'gallery/list.html',
+        {'albums': albums},
+    )
+
+
+def album_detail(request, slug):
+    """Альбом с фотографиями."""
+    album = get_object_or_404(
+        Album.objects.prefetch_related('photos').select_related('match'),
+        slug=slug,
+        is_published=True,
+    )
+    photos = album.photos.order_by('order', 'id')
+    return render(
+        request,
+        'gallery/detail.html',
+        {'album': album, 'photos': photos},
     )

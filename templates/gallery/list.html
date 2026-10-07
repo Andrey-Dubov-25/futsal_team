@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Фотогалерея — Мини-футбольная команда{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="page-header">
+        <h1 class="page-header__title">Фотогалерея</h1>
+        <p class="page-header__subtitle">
+            Фото с матчей, турниров и событий команды
+        </p>
+    </div>
+
+    {% if albums %}
+        <div class="albums-grid">
+            {% for album in albums %}
+                <a href="{% url 'web:album-detail' album.slug %}"
+                   class="album-card">
+                    <div class="album-card__cover">
+                        {% if album.cover %}
+                            <img src="{{ album.cover.url }}"
+                                 alt="{{ album.title }}">
+                        {% else %}
+                            <div class="album-card__cover-placeholder">
+                                📷
+                            </div>
+                        {% endif %}
+                        <span class="album-card__count">
+                            {{ album.photos_count }}
+                            {% if album.photos_count == 1 %}фото{% else %}фото{% endif %}
+                        </span>
+                    </div>
+                    <div class="album-card__body">
+                        <time class="album-card__date"
+                              datetime="{{ album.date|date:'c' }}">
+                            {{ album.date|date:"d.m.Y" }}
+                        </time>
+                        <h2 class="album-card__title">{{ album.title }}</h2>
+                        {% if album.match %}
+                            <p class="album-card__match">
+                                Матч: {{ album.match.opponent }}
+                            </p>
+                        {% endif %}
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <p>Альбомов пока нет.</p>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

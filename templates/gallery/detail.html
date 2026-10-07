@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ album.title }} — Фотогалерея{% endblock %}
+
+{% block content %}
+<section class="section">
+    <a href="{% url 'web:gallery-list' %}" class="back-link">
+        ← Все альбомы
+    </a>
+
+    <div class="page-header">
+        <time class="page-header__date"
+              datetime="{{ album.date|date:'c' }}">
+            {{ album.date|date:"d.m.Y" }}
+        </time>
+        <h1 class="page-header__title">{{ album.title }}</h1>
+        {% if album.description %}
+            <p class="page-header__subtitle">{{ album.description }}</p>
+        {% endif %}
+        {% if album.match %}
+            <p class="album-match-link">
+                Матч:
+                <a href="{% url 'web:match-detail' album.match.pk %}">
+                    {{ album.match.opponent }}
+                </a>
+            </p>
+        {% endif %}
+    </div>
+
+    {% if photos %}
+        <div class="photos-grid" id="photos-grid">
+            {% for photo in photos %}
+                <a href="{{ photo.image.url }}"
+                   class="photo-item"
+                   data-photo-index="{{ forloop.counter0 }}"
+                   data-photo-caption="{{ photo.caption|default:'' }}">
+                    <img src="{{ photo.image.url }}"
+                         alt="{{ photo.caption|default:album.title }}"
+                         loading="lazy">
+                    {% if photo.caption %}
+                        <div class="photo-item__caption">
+                            {{ photo.caption }}
+                        </div>
+                    {% endif %}
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <p>В этом альбоме пока нет фотографий.</p>
+        </div>
+    {% endif %}
+</section>
+
+<div class="lightbox" id="lightbox" hidden>
+    <button class="lightbox__close" aria-label="Закрыть">×</button>
+    <button class="lightbox__prev" aria-label="Предыдущая">‹</button>
+    <button class="lightbox__next" aria-label="Следующая">›</button>
+    <div class="lightbox__content">
+        <img class="lightbox__image" src="" alt="">
+        <div class="lightbox__caption"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/gallery.js' %}"></script>
+{% endblock %}

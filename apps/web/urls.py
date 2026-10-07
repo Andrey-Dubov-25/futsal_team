@@ -32,6 +32,12 @@ urlpatterns = [
         views.add_comment,
         name='news-add-comment',
     ),
+    path('gallery/', views.gallery_list, name='gallery-list'),
+    path(
+        'gallery/<slug:slug>/',
+        views.album_detail,
+        name='album-detail',
+    ),
     path('stats/', views.stats_team, name='stats-team'),
     path(
         'stats/players/',

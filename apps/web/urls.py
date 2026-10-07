@@ -9,6 +9,11 @@ from .views import WebLoginView, WebLogoutView
 app_name = 'web'
 
 urlpatterns = [
+    # SEO
+    path('robots.txt', views.robots_txt, name='robots-txt'),
+    path('sitemap.xml', views.sitemap_xml, name='sitemap-xml'),
+    # Auth
+    path('login/', WebLoginView.as_view(), name='login'),
     # Auth
     path('login/', WebLoginView.as_view(), name='login'),
     path('logout/', WebLogoutView.as_view(), name='logout'),

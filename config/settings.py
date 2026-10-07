@@ -64,6 +64,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'config.context_processors.site_meta',  # ← новое
             ],
         },
     },
@@ -171,3 +172,9 @@ SPECTACULAR_SETTINGS = {
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+# --- SEO / Sitemap ---
+SITE_URL = env('SITE_URL', default='http://localhost:8000')
+SITE_NAME = c.SITE_NAME
+SITE_DESCRIPTION = c.SITE_DESCRIPTION
+SITE_KEYWORDS = c.SITE_KEYWORDS

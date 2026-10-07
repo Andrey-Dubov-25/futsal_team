@@ -4,7 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Мини-футбольная команда{% endblock %}</title>
+
+    <title>{% block title %}{{ site_name }}{% endblock %}</title>
+
+    {% include 'partials/meta.html' %}
+
+    <link rel="canonical" href="{{ request.build_absolute_uri }}">
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 

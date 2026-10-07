@@ -49,3 +49,13 @@ ALBUM_TITLE_MAX_LENGTH = 200
 ALBUM_SLUG_MAX_LENGTH = 200
 ALBUM_DESCRIPTION_MAX_LENGTH = 500
 PHOTO_CAPTION_MAX_LENGTH = 300
+
+# --- Site ---
+SITE_NAME = 'ФК «Футзал»'
+SITE_DESCRIPTION = (
+    'Сайт мини-футбольной команды: расписание матчей, состав, '
+    'статистика игроков, новости и фотогалерея.'
+)
+SITE_KEYWORDS = (
+    'мини-футбол, футзал, команда, матчи, статистика, ' 'игроки, новости'
+)

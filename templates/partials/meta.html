@@ -1,0 +1,24 @@
+{% load static %}
+<meta name="description"
+      content="{% block meta_description %}{{ site_description }}{% endblock %}">
+<meta name="keywords"
+      content="{% block meta_keywords %}{{ site_keywords }}{% endblock %}">
+<meta name="author" content="{{ site_name }}">
+
+{# Open Graph #}
+<meta property="og:type"
+      content="{% block og_type %}website{% endblock %}">
+<meta property="og:site_name" content="{{ site_name }}">
+<meta property="og:title"
+      content="{% block og_title %}{{ site_name }}{% endblock %}">
+<meta property="og:description"
+      content="{% block og_description %}{{ site_description }}{% endblock %}">
+<meta property="og:url" content="{{ request.build_absolute_uri }}">
+{% block og_image %}{% endblock %}
+
+{# Twitter Card #}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title"
+      content="{% block twitter_title %}{{ site_name }}{% endblock %}">
+<meta name="twitter:description"
+      content="{% block twitter_description %}{{ site_description }}{% endblock %}">

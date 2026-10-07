@@ -8,6 +8,7 @@ from django.db.models import Count
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 
@@ -300,3 +301,55 @@ def handler404(request, exception):
 def handler500(request):
     """Кастомная страница 500."""
     return render(request, '500.html', status=500)
+
+
+def robots_txt(request):
+    """Отдаёт файл robots.txt."""
+    lines = [
+        'User-agent: *',
+        'Disallow: /admin/',
+        'Disallow: /api/',
+        '',
+        f'Sitemap: {request.build_absolute_uri("/sitemap.xml")}',
+    ]
+    return HttpResponse(
+        '\n'.join(lines),
+        content_type='text/plain',
+    )
+
+
+def sitemap_xml(request):
+    """Отдаёт простой XML-sitemap со всеми публичными URL."""
+    urls = [
+        reverse('web:home'),
+        reverse('web:players-list'),
+        reverse('web:staff-list'),
+        reverse('web:trainings-list'),
+        reverse('web:matches-list'),
+        reverse('web:news-list'),
+        reverse('web:stats-team'),
+        reverse('web:stats-players'),
+        reverse('web:gallery-list'),
+    ]
+
+    # Динамические страницы — новости и альбомы
+    for post in NewsPost.objects.filter(is_published=True):
+        urls.append(reverse('web:news-detail', args=[post.slug]))
+    for album in Album.objects.filter(is_published=True):
+        urls.append(reverse('web:album-detail', args=[album.slug]))
+
+    base_url = request.build_absolute_uri('/').rstrip('/')
+    lines = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ]
+    for url in urls:
+        lines.append('  <url>')
+        lines.append(f'    <loc>{base_url}{url}</loc>')
+        lines.append('  </url>')
+    lines.append('</urlset>')
+
+    return HttpResponse(
+        '\n'.join(lines),
+        content_type='application/xml',
+    )

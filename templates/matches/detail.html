@@ -2,6 +2,9 @@
 
 {% block title %}{{ match.opponent }} — Матч{% endblock %}
 
+{% block meta_description %}Матч против {{ match.opponent }} — {{ match.date|date:"d.m.Y" }}.{% endblock %}
+{% block og_title %}Матч: {{ match.opponent }}{% endblock %}
+
 {% block content %}
 <section class="section">
     <a href="{% url 'web:matches-list' %}" class="back-link">

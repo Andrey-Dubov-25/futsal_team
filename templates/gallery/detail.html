@@ -3,6 +3,10 @@
 
 {% block title %}{{ album.title }} — Фотогалерея{% endblock %}
 
+{% block meta_description %}{{ album.description|default:album.title|truncatewords:30 }}{% endblock %}
+{% block og_title %}{{ album.title }}{% endblock %}
+{% block og_image %}{% if album.cover %}<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ album.cover.url }}">{% endif %}{% endblock %}
+
 {% block content %}
 <section class="section">
     <a href="{% url 'web:gallery-list' %}" class="back-link">

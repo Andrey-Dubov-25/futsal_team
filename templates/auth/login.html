@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Вход — Мини-футбольная команда{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="auth-card">
+        <h1 class="auth-card__title">Вход</h1>
+        <p class="auth-card__subtitle">
+            Войдите, чтобы оставлять комментарии
+        </p>
+
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="form-errors">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}">
+                    Логин
+                </label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <div class="form-errors">
+                        {{ form.username.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.password.id_for_label }}">
+                    Пароль
+                </label>
+                {{ form.password }}
+                {% if form.password.errors %}
+                    <div class="form-errors">
+                        {{ form.password.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn--primary btn--block">
+                Войти
+            </button>
+        </form>
+
+        <p class="auth-card__footer">
+            Нет аккаунта?
+            <a href="{% url 'web:register' %}">Зарегистрироваться</a>
+        </p>
+    </div>
+</section>
+{% endblock %}

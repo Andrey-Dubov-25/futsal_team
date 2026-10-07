@@ -1755,3 +1755,215 @@ main.container {
         font-size: 20px;
     }
 }
+
+/* ============================================================================
+   Auth pages
+   ========================================================================= */
+
+.auth-section {
+    max-width: 480px;
+    margin: 40px auto;
+}
+
+.auth-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 40px;
+    box-shadow: var(--shadow);
+}
+
+.auth-card__title {
+    font-size: 28px;
+    margin: 0 0 8px;
+    text-align: center;
+}
+
+.auth-card__subtitle {
+    color: var(--color-text-muted);
+    text-align: center;
+    margin: 0 0 32px;
+    font-size: 15px;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--color-text);
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    font-family: inherit;
+    font-size: 15px;
+    background: var(--color-surface);
+    box-sizing: border-box;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.form-help {
+    font-size: 13px;
+    color: var(--color-text-muted);
+    margin-top: 4px;
+}
+
+.form-help ul {
+    margin: 4px 0 0;
+    padding-left: 20px;
+}
+
+.form-errors {
+    color: #dc3545;
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+.form-errors ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.btn--block {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 16px;
+}
+
+.btn--small {
+    padding: 6px 14px;
+    font-size: 14px;
+}
+
+.btn--danger {
+    color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn--danger:hover {
+    background: #dc3545;
+    color: white;
+    border-color: #dc3545;
+}
+
+.auth-card__footer {
+    margin: 24px 0 0;
+    text-align: center;
+    font-size: 14px;
+    color: var(--color-text-muted);
+}
+
+/* ============================================================================
+   Profile
+   ========================================================================= */
+
+.profile-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 32px;
+    max-width: 640px;
+}
+
+.profile-card__actions {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--color-border);
+}
+
+/* ============================================================================
+   Header — auth buttons
+   ========================================================================= */
+
+.header__auth {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.header__auth form {
+    margin: 0;
+}
+
+.header__auth button.btn {
+    cursor: pointer;
+    font-family: inherit;
+}
+
+@media (max-width: 640px) {
+    .auth-card {
+        padding: 24px 20px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ============================================================================
+   Messages
+   ========================================================================= */
+
+.messages {
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.message {
+    padding: 12px 20px;
+    border-radius: var(--radius);
+    font-size: 15px;
+    border-left: 4px solid;
+}
+
+.message--success {
+    background: #d1e7dd;
+    color: #0a3622;
+    border-left-color: #198754;
+}
+
+.message--error {
+    background: #f8d7da;
+    color: #58151c;
+    border-left-color: #dc3545;
+}
+
+.message--warning {
+    background: #fff3cd;
+    color: #664d03;
+    border-left-color: #ffc107;
+}
+
+.message--info {
+    background: #cfe2ff;
+    color: #052c65;
+    border-left-color: #0d6efd;
+}

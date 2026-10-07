@@ -23,7 +23,7 @@
     {% else %}
         <div class="comment-form comment-form--login-prompt">
             <p>
-                <a href="{% url 'admin:login' %}?next={{ request.path }}">
+                <a href="{% url 'web:login' %}?next={{ request.path }}">
                     Войдите
                 </a>, чтобы оставить комментарий.
             </p>

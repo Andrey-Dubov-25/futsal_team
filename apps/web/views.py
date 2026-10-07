@@ -1,9 +1,12 @@
 """View-функции для HTML-страниц."""
 
+from django.contrib import messages
+from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Count
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.views.decorators.http import require_POST
@@ -15,7 +18,7 @@ from apps.players.models import Player
 from apps.staff.models import Staff
 from apps.training.models import Training
 
-from .forms import CommentForm
+from .forms import CommentForm, LoginForm, RegisterForm
 from .services import get_player_stats, get_team_stats
 
 
@@ -237,4 +240,53 @@ def trainings_list(request):
         request,
         'training/list.html',
         {'upcoming': upcoming, 'past': past},
+    )
+
+
+class WebLoginView(LoginView):
+    """Страница входа."""
+
+    template_name = 'auth/login.html'
+    authentication_form = LoginForm
+    redirect_authenticated_user = True
+
+
+class WebLogoutView(LogoutView):
+    """Выход из системы. Редиректит на главную."""
+
+    next_page = 'web:home'
+
+
+def register_view(request):
+    """Регистрация нового пользователя."""
+    if request.user.is_authenticated:
+        return redirect('web:home')
+
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            messages.success(
+                request,
+                'Добро пожаловать! Аккаунт создан.',
+            )
+            return redirect('web:home')
+    else:
+        form = RegisterForm()
+
+    return render(
+        request,
+        'auth/register.html',
+        {'form': form},
+    )
+
+
+@login_required
+def profile_view(request):
+    """Профиль текущего пользователя."""
+    return render(
+        request,
+        'auth/profile.html',
+        {'profile_user': request.user},
     )

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Профиль — {{ profile_user.username }}{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="page-header">
+        <h1 class="page-header__title">
+            Профиль
+        </h1>
+        <p class="page-header__subtitle">
+            {{ profile_user.username }}
+        </p>
+    </div>
+
+    <div class="profile-card">
+        <dl class="info-list">
+            <dt>Логин</dt>
+            <dd>{{ profile_user.username }}</dd>
+
+            <dt>Email</dt>
+            <dd>{{ profile_user.email|default:"—" }}</dd>
+
+            <dt>Имя</dt>
+            <dd>{{ profile_user.first_name|default:"—" }}</dd>
+
+            <dt>Фамилия</dt>
+            <dd>{{ profile_user.last_name|default:"—" }}</dd>
+
+            <dt>Роль</dt>
+            <dd>{{ profile_user.get_role_display }}</dd>
+
+            <dt>Дата регистрации</dt>
+            <dd>{{ profile_user.date_joined|date:"d.m.Y" }}</dd>
+        </dl>
+
+        <form method="post"
+              action="{% url 'web:logout' %}"
+              class="profile-card__actions">
+            {% csrf_token %}
+            <button type="submit" class="btn btn--ghost btn--danger">
+                Выйти из аккаунта
+            </button>
+        </form>
+    </div>
+</section>
+{% endblock %}

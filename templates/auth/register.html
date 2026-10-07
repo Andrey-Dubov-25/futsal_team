@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}Регистрация — Мини-футбольная команда{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="auth-card">
+        <h1 class="auth-card__title">Регистрация</h1>
+        <p class="auth-card__subtitle">
+            Создайте аккаунт болельщика
+        </p>
+
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="form-errors">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}">
+                    Логин *
+                </label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <div class="form-errors">{{ form.username.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.email.id_for_label }}">
+                    Email
+                </label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <div class="form-errors">{{ form.email.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="{{ form.first_name.id_for_label }}">
+                        Имя
+                    </label>
+                    {{ form.first_name }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.last_name.id_for_label }}">
+                        Фамилия
+                    </label>
+                    {{ form.last_name }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.password1.id_for_label }}">
+                    Пароль *
+                </label>
+                {{ form.password1 }}
+                {% if form.password1.errors %}
+                    <div class="form-errors">{{ form.password1.errors }}</div>
+                {% endif %}
+                {% if form.password1.help_text %}
+                    <div class="form-help">{{ form.password1.help_text }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.password2.id_for_label }}">
+                    Подтверждение пароля *
+                </label>
+                {{ form.password2 }}
+                {% if form.password2.errors %}
+                    <div class="form-errors">{{ form.password2.errors }}</div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn--primary btn--block">
+                Зарегистрироваться
+            </button>
+        </form>
+
+        <p class="auth-card__footer">
+            Уже есть аккаунт?
+            <a href="{% url 'web:login' %}">Войти</a>
+        </p>
+    </div>
+</section>
+{% endblock %}

@@ -2,7 +2,7 @@
 
 ![CI](https://github.com/Andrey-Dubov-25/futsal_team/actions/workflows/ci.yml/badge.svg)
 
-Сайт мини-футбольной команды: расписание матчей, состав, статистика игроков, новости.
+Сайт мини-футбольной команды: расписание матчей, состав, статистика игроков, новости, фотогалерея.
 
 ## Стек
 
@@ -13,7 +13,10 @@
 - **Docker** + Docker Compose
 - **JWT** — авторизация через `djangorestframework-simplejwt`
 - **OpenAPI / Swagger** — документация API через `drf-spectacular`
-- **ruff** + **pre-commit** — качество кода
+- **django-filter** — фильтрация, поиск, сортировка
+- **pytest** + **factory-boy** — тесты
+- **ruff** + **bandit** + **pre-commit** — качество кода
+- **GitHub Actions** — CI
 
 ## Быстрый старт
 
@@ -22,12 +25,13 @@
 - Docker Desktop
 - Python 3.12 (для локальных инструментов — pre-commit, ruff)
 - Git
+- GNU Make (на Windows — через `pip install gnumake` или Chocolatey/Scoop)
 
 ### Установка
 
 ```bash
 # 1. Клонировать репозиторий
-git clone <repo_url>
+git clone https://github.com/Andrey-Dubov-25/futsal_team.git
 cd futsal_team
 
 # 2. Создать .env из шаблона

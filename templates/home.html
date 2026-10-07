@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная — Мини-футбольная команда{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Мини-футбольная команда</h1>
+    <p class="hero__subtitle">
+        Домашняя арена — стадион «Дружба». Играем в городской любительской лиге.
+    </p>
+    <div class="hero__actions">
+        <a href="#" class="btn btn--primary">Смотреть матчи</a>
+        <a href="#" class="btn btn--ghost">Состав команды</a>
+    </div>
+</section>
+
+<section class="section">
+    <h2 class="section__title">Скоро на сайте</h2>
+    <div class="cards">
+        <article class="card">
+            <h3>Матчи</h3>
+            <p>Расписание ближайших игр и результаты прошедших.</p>
+        </article>
+        <article class="card">
+            <h3>Состав</h3>
+            <p>Карточки игроков: номера, позиции, фото.</p>
+        </article>
+        <article class="card">
+            <h3>Статистика</h3>
+            <p>Таблица бомбардиров, форма команды.</p>
+        </article>
+        <article class="card">
+            <h3>Новости</h3>
+            <p>Обновления команды, комментарии болельщиков.</p>
+        </article>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,293 @@
+/* ============================================================================
+   Переменные
+   ========================================================================= */
+
+:root {
+    --color-bg: #f8f9fa;
+    --color-surface: #ffffff;
+    --color-text: #212529;
+    --color-text-muted: #6c757d;
+    --color-border: #dee2e6;
+    --color-primary: #0d6efd;
+    --color-primary-dark: #0a58ca;
+    --color-accent: #198754;
+
+    --radius: 8px;
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+
+    --container-max: 1140px;
+    --container-padding: 16px;
+}
+
+/* ============================================================================
+   Reset
+   ========================================================================= */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',
+                 Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--color-primary-dark);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ============================================================================
+   Layout
+   ========================================================================= */
+
+.container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+}
+
+main.container {
+    padding-top: 32px;
+    padding-bottom: 64px;
+    min-height: calc(100vh - 200px);
+}
+
+/* ============================================================================
+   Header
+   ========================================================================= */
+
+.header {
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.header__logo {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.header__logo:hover {
+    color: var(--color-primary);
+}
+
+.header__nav {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.header__nav a {
+    color: var(--color-text);
+    font-weight: 500;
+}
+
+.header__nav a:hover {
+    color: var(--color-primary);
+}
+
+/* ============================================================================
+   Footer
+   ========================================================================= */
+
+.footer {
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    padding: 24px 0;
+    color: var(--color-text-muted);
+    font-size: 14px;
+}
+
+.footer__inner {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+/* ============================================================================
+   Hero
+   ========================================================================= */
+
+.hero {
+    background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+    color: white;
+    padding: 64px 32px;
+    border-radius: var(--radius);
+    margin-bottom: 48px;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 40px;
+    margin: 0 0 16px;
+}
+
+.hero__subtitle {
+    font-size: 18px;
+    opacity: 0.95;
+    max-width: 600px;
+    margin: 0 auto 32px;
+}
+
+.hero__actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* ============================================================================
+   Section
+   ========================================================================= */
+
+.section {
+    margin-bottom: 48px;
+}
+
+.section__title {
+    font-size: 28px;
+    margin: 0 0 24px;
+}
+
+/* ============================================================================
+   Cards
+   ========================================================================= */
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow);
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+    margin: 0 0 8px;
+    font-size: 18px;
+}
+
+.card p {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 14px;
+}
+
+/* ============================================================================
+   Buttons
+   ========================================================================= */
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: var(--radius);
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background 0.15s, color 0.15s, border 0.15s;
+    text-decoration: none;
+}
+
+.btn--primary {
+    background: white;
+    color: var(--color-primary);
+}
+
+.btn--primary:hover {
+    background: var(--color-bg);
+    color: var(--color-primary-dark);
+}
+
+.btn--ghost {
+    background: transparent;
+    color: inherit;
+    border-color: currentColor;
+}
+
+.btn--ghost:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.header__auth .btn--ghost {
+    color: var(--color-text);
+    border-color: var(--color-border);
+    padding: 6px 14px;
+    font-size: 14px;
+}
+
+.header__auth .btn--ghost:hover {
+    background: var(--color-bg);
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+/* ============================================================================
+   Адаптив
+   ========================================================================= */
+
+@media (max-width: 640px) {
+    .hero {
+        padding: 40px 20px;
+    }
+
+    .hero h1 {
+        font-size: 28px;
+    }
+
+    .hero__subtitle {
+        font-size: 16px;
+    }
+
+    .header__inner {
+        justify-content: center;
+        text-align: center;
+    }
+}

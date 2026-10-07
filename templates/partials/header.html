@@ -1,0 +1,20 @@
+<header class="header">
+    <div class="container header__inner">
+        <a href="{% url 'web:home' %}" class="header__logo">
+            ⚽ ФК «Футзал»
+        </a>
+
+        <nav class="header__nav">
+            <a href="{% url 'web:home' %}">Главная</a>
+            <a href="#">Состав</a>
+            <a href="#">Матчи</a>
+            <a href="#">Новости</a>
+            <a href="#">Статистика</a>
+            <a href="#">Галерея</a>
+        </nav>
+
+        <div class="header__auth">
+            <a href="{% url 'admin:index' %}" class="btn btn--ghost">Админка</a>
+        </div>
+    </div>
+</header>

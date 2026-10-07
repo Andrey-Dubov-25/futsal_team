@@ -1967,3 +1967,76 @@ main.container {
     color: #052c65;
     border-left-color: #0d6efd;
 }
+
+
+/* ============================================================================
+   Error pages
+   ========================================================================= */
+
+.error-page {
+    text-align: center;
+    padding: 60px 20px 80px;
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.error-page__code {
+    font-size: 120px;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--color-primary);
+    opacity: 0.15;
+    letter-spacing: -4px;
+    margin-bottom: 16px;
+}
+
+.error-page__title {
+    font-size: 32px;
+    margin: 0 0 16px;
+}
+
+.error-page__text {
+    color: var(--color-text-muted);
+    font-size: 17px;
+    margin: 0 0 32px;
+    line-height: 1.6;
+}
+
+.error-page__actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.error-page__actions .btn--primary {
+    background: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+}
+
+.error-page__actions .btn--primary:hover {
+    background: var(--color-primary-dark);
+    color: white;
+    border-color: var(--color-primary-dark);
+}
+
+.error-page__actions .btn--ghost {
+    color: var(--color-text);
+    border-color: var(--color-border);
+}
+
+.error-page__actions .btn--ghost:hover {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+@media (max-width: 640px) {
+    .error-page__code {
+        font-size: 80px;
+    }
+
+    .error-page__title {
+        font-size: 24px;
+    }
+}

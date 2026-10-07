@@ -290,3 +290,13 @@ def profile_view(request):
         'auth/profile.html',
         {'profile_user': request.user},
     )
+
+
+def handler404(request, exception):
+    """Кастомная страница 404."""
+    return render(request, '404.html', status=404)
+
+
+def handler500(request):
+    """Кастомная страница 500."""
+    return render(request, '500.html', status=500)

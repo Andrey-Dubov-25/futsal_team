@@ -12,6 +12,7 @@ from apps.gallery.models import Album
 from apps.matches.models import Match
 from apps.news.models import NewsPost
 from apps.players.models import Player
+from apps.staff.models import Staff
 
 from .forms import CommentForm
 from .services import get_player_stats, get_team_stats
@@ -203,4 +204,14 @@ def album_detail(request, slug):
         request,
         'gallery/detail.html',
         {'album': album, 'photos': photos},
+    )
+
+
+def staff_list(request):
+    """Страница тренерского и административного состава."""
+    staff = Staff.objects.filter(is_active=True).order_by('order', 'last_name')
+    return render(
+        request,
+        'staff/list.html',
+        {'staff': staff},
     )

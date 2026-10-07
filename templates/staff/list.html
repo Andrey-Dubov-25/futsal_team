@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Тренерский состав — Мини-футбольная команда{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="page-header">
+        <h1 class="page-header__title">Тренерский состав</h1>
+        <p class="page-header__subtitle">
+            Люди, которые работают с командой
+        </p>
+    </div>
+
+    {% if staff %}
+        <div class="staff-grid">
+            {% for member in staff %}
+                <article class="staff-card">
+                    <div class="staff-card__photo">
+                        {% if member.photo %}
+                            <img src="{{ member.photo.url }}"
+                                 alt="{{ member.full_name }}">
+                        {% else %}
+                            <div class="staff-card__photo-placeholder">
+                                {{ member.first_name|slice:":1" }}{{ member.last_name|slice:":1" }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="staff-card__body">
+                        <div class="staff-card__role">
+                            {{ member.get_role_display }}
+                        </div>
+                        <h2 class="staff-card__name">
+                            {{ member.last_name }} {{ member.first_name }}
+                        </h2>
+                        {% if member.bio %}
+                            <p class="staff-card__bio">
+                                {{ member.bio }}
+                            </p>
+                        {% endif %}
+                        {% if member.phone or member.email %}
+                            <div class="staff-card__contacts">
+                                {% if member.phone %}
+                                    <div class="staff-card__contact">
+                                        📞 {{ member.phone }}
+                                    </div>
+                                {% endif %}
+                                {% if member.email %}
+                                    <div class="staff-card__contact">
+                                        ✉️
+                                        <a href="mailto:{{ member.email }}">
+                                            {{ member.email }}
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <p>Информация о составе пока не заполнена.</p>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

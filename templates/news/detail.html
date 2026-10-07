@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ post.title }} — Новости{% endblock %}
+
+{% block content %}
+<section class="section">
+    <a href="{% url 'web:news-list' %}" class="back-link">
+        ← Все новости
+    </a>
+
+    <article class="news-article">
+        <header class="news-article__header">
+            <time class="news-article__date"
+                  datetime="{{ post.published_at|date:'c' }}">
+                {{ post.published_at|date:"d.m.Y" }}
+            </time>
+            <h1 class="news-article__title">{{ post.title }}</h1>
+            {% if post.author %}
+                <div class="news-article__author">
+                    Автор: {{ post.author.username }}
+                </div>
+            {% endif %}
+        </header>
+
+        {% if post.cover %}
+            <div class="news-article__cover">
+                <img src="{{ post.cover.url }}" alt="{{ post.title }}">
+            </div>
+        {% endif %}
+
+        <div class="news-article__content">
+            {{ post.content|linebreaks }}
+        </div>
+    </article>
+
+    <section class="comments-section"
+             id="comments">
+        <h2 class="section__title">
+            Комментарии ({{ comments|length }})
+        </h2>
+
+        {% include 'news/partials/comment_section.html' %}
+    </section>
+</section>
+{% endblock %}

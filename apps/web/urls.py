@@ -21,4 +21,15 @@ urlpatterns = [
         views.match_detail,
         name='match-detail',
     ),
+    path('news/', views.news_list, name='news-list'),
+    path(
+        'news/<slug:slug>/',
+        views.news_detail,
+        name='news-detail',
+    ),
+    path(
+        'news/<slug:slug>/comment/',
+        views.add_comment,
+        name='news-add-comment',
+    ),
 ]

@@ -1,10 +1,17 @@
 """View-функции для HTML-страниц."""
 
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
+from django.template.loader import render_to_string
 from django.utils import timezone
+from django.views.decorators.http import require_POST
 
 from apps.matches.models import Match
+from apps.news.models import NewsPost
 from apps.players.models import Player
+
+from .forms import CommentForm
 
 
 def home(request):
@@ -63,3 +70,84 @@ def match_detail(request, pk):
         'matches/detail.html',
         {'match': match, 'events': events},
     )
+
+
+def news_list(request):
+    """Список опубликованных новостей."""
+    news = (
+        NewsPost.objects.filter(is_published=True)
+        .select_related('author')
+        .order_by('-published_at')
+    )
+    return render(request, 'news/list.html', {'news': news})
+
+
+def news_detail(request, slug):
+    """Детальная страница новости с комментариями."""
+    post = get_object_or_404(
+        NewsPost.objects.select_related('author'),
+        slug=slug,
+        is_published=True,
+    )
+    comments = (
+        post.comments.filter(is_published=True)
+        .select_related('author')
+        .order_by('-created_at')
+    )
+    form = CommentForm()
+
+    return render(
+        request,
+        'news/detail.html',
+        {
+            'post': post,
+            'comments': comments,
+            'form': form,
+        },
+    )
+
+
+@login_required
+@require_POST
+def add_comment(request, slug):
+    """Добавить комментарий к новости через HTMX.
+
+    Возвращает HTML-фрагмент (partial) с обновлённым списком
+    комментариев и пустой формой.
+    """
+    post = get_object_or_404(NewsPost, slug=slug, is_published=True)
+    form = CommentForm(request.POST)
+
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.post = post
+        comment.author = request.user
+        comment.save()
+
+        comments = (
+            post.comments.filter(is_published=True)
+            .select_related('author')
+            .order_by('-created_at')
+        )
+        form = CommentForm()  # пустая форма после успеха
+    else:
+        # При ошибке — возвращаем форму с ошибками,
+        # но список комментариев тоже нужен (для замены)
+        comments = (
+            post.comments.filter(is_published=True)
+            .select_related('author')
+            .order_by('-created_at')
+        )
+
+    context = {
+        'post': post,
+        'comments': comments,
+        'form': form,
+    }
+
+    html = render_to_string(
+        'news/partials/comment_section.html',
+        context,
+        request=request,
+    )
+    return HttpResponse(html)

@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.utils.text import slugify
+from unidecode import unidecode
 
 from config import constants as c
 
@@ -43,8 +44,13 @@ class NewsPost(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
+        """Сгенерировать ASCII-slug из заголовка при первом сохранении."""
         if not self.slug:
-            self.slug = slugify(self.title, allow_unicode=True)
+            transliterated = unidecode(self.title)
+            self.slug = slugify(transliterated)
+            # если получился пустой (например, только эмодзи) — fallback
+            if not self.slug:
+                self.slug = f'news-{self.pk or "new"}'
         super().save(*args, **kwargs)
 
 

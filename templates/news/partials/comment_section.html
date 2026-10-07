@@ -1,0 +1,57 @@
+<div id="comment-section">
+
+    {% if user.is_authenticated %}
+        <form hx-post="{% url 'web:news-add-comment' post.slug %}"
+              hx-target="#comment-section"
+              hx-swap="outerHTML"
+              class="comment-form">
+            {% csrf_token %}
+            {{ form.text }}
+            {% if form.text.errors %}
+                <div class="form-errors">
+                    {% for error in form.text.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <div class="comment-form__actions">
+                <button type="submit" class="btn btn--primary">
+                    Отправить
+                </button>
+            </div>
+        </form>
+    {% else %}
+        <div class="comment-form comment-form--login-prompt">
+            <p>
+                <a href="{% url 'admin:login' %}?next={{ request.path }}">
+                    Войдите
+                </a>, чтобы оставить комментарий.
+            </p>
+        </div>
+    {% endif %}
+
+    {% if comments %}
+        <ul class="comments-list">
+            {% for comment in comments %}
+                <li class="comment">
+                    <div class="comment__header">
+                        <span class="comment__author">
+                            {{ comment.author.username }}
+                        </span>
+                        <time class="comment__date"
+                              datetime="{{ comment.created_at|date:'c' }}">
+                            {{ comment.created_at|date:"d.m.Y H:i" }}
+                        </time>
+                    </div>
+                    <div class="comment__text">
+                        {{ comment.text|linebreaks }}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="comments-empty">
+            Комментариев пока нет. Будьте первым!
+        </p>
+    {% endif %}
+</div>

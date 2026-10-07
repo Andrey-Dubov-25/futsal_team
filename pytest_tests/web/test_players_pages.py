@@ -9,6 +9,8 @@ import pytest
 from django.urls import reverse
 from rest_framework import status
 
+from pytest_tests.factories import PlayerFactory
+
 
 pytestmark = pytest.mark.django_db
 
@@ -31,7 +33,6 @@ def test_players_list_shows_active_players(client, sample_players):
 
 def test_players_list_hides_inactive(client, db, sample_players):
     """Неактивные игроки не отображаются."""
-    from pytest_tests.factories import PlayerFactory
 
     inactive = PlayerFactory(
         first_name='Неактивный',
@@ -71,7 +72,6 @@ def test_player_detail_404_for_unknown(client, db):
 
 def test_player_detail_404_for_inactive(client, db):
     """Неактивный игрок — 404."""
-    from pytest_tests.factories import PlayerFactory
 
     inactive = PlayerFactory(is_active=False)
     url = reverse('web:player-detail', args=[inactive.pk])

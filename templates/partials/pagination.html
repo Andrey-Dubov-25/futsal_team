@@ -1,0 +1,49 @@
+{% if is_paginated %}
+<nav class="pagination" aria-label="Навигация по страницам">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}"
+           class="pagination__link pagination__link--arrow">
+            ← Назад
+        </a>
+    {% else %}
+        <span class="pagination__link pagination__link--arrow pagination__link--disabled">
+            ← Назад
+        </span>
+    {% endif %}
+
+    <div class="pagination__pages">
+        {% for num in page_obj.paginator.page_range %}
+            {% if num == page_obj.number %}
+                <span class="pagination__link pagination__link--current">
+                    {{ num }}
+                </span>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <a href="?page={{ num }}"
+                   class="pagination__link">
+                    {{ num }}
+                </a>
+            {% elif num == 1 or num == page_obj.paginator.num_pages %}
+                <a href="?page={{ num }}"
+                   class="pagination__link">
+                    {{ num }}
+                </a>
+            {% elif num == page_obj.number|add:'-3' or num == page_obj.number|add:'3' %}
+                <span class="pagination__link pagination__link--dots">
+                    …
+                </span>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}"
+           class="pagination__link pagination__link--arrow">
+            Вперёд →
+        </a>
+    {% else %}
+        <span class="pagination__link pagination__link--arrow pagination__link--disabled">
+            Вперёд →
+        </span>
+    {% endif %}
+</nav>
+{% endif %}

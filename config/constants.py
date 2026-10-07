@@ -59,3 +59,9 @@ SITE_DESCRIPTION = (
 SITE_KEYWORDS = (
     'мини-футбол, футзал, команда, матчи, статистика, ' 'игроки, новости'
 )
+
+# --- Пагинация ---
+PAGE_SIZE_NEWS = 10
+PAGE_SIZE_MATCHES = 10
+PAGE_SIZE_GALLERY = 12
+PAGE_SIZE_TRAININGS = 10

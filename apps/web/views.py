@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
+from django.core.paginator import Paginator
 from django.db.models import Count
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -18,6 +19,7 @@ from apps.news.models import NewsPost
 from apps.players.models import Player
 from apps.staff.models import Staff
 from apps.training.models import Training
+from config import constants as c
 
 from .forms import CommentForm, LoginForm, RegisterForm
 from .services import get_player_stats, get_team_stats
@@ -50,20 +52,30 @@ def player_detail(request, pk):
 
 
 def matches_list(request):
-    """Список матчей: ближайшие и прошедшие."""
+    """Список матчей: ближайшие и прошедшие (с пагинацией)."""
     now = timezone.now()
 
     upcoming = Match.objects.filter(
         date__gte=now, status=Match.Status.SCHEDULED
     ).order_by('date')
-    results = Match.objects.filter(status=Match.Status.FINISHED).order_by(
+
+    results_qs = Match.objects.filter(status=Match.Status.FINISHED).order_by(
         '-date'
-    )[:20]
+    )
+
+    paginator = Paginator(results_qs, c.PAGE_SIZE_MATCHES)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
 
     return render(
         request,
         'matches/list.html',
-        {'upcoming': upcoming, 'results': results},
+        {
+            'upcoming': upcoming,
+            'results': page_obj,  # список результатов — постранично
+            'page_obj': page_obj,
+            'is_paginated': page_obj.has_other_pages(),
+        },
     )
 
 
@@ -82,13 +94,26 @@ def match_detail(request, pk):
 
 
 def news_list(request):
-    """Список опубликованных новостей."""
+    """Список опубликованных новостей с пагинацией."""
     news = (
         NewsPost.objects.filter(is_published=True)
         .select_related('author')
         .order_by('-published_at')
     )
-    return render(request, 'news/list.html', {'news': news})
+
+    paginator = Paginator(news, c.PAGE_SIZE_NEWS)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(
+        request,
+        'news/list.html',
+        {
+            'news': page_obj,
+            'page_obj': page_obj,
+            'is_paginated': page_obj.has_other_pages(),
+        },
+    )
 
 
 def news_detail(request, slug):
@@ -183,17 +208,26 @@ def stats_team(request):
 
 
 def gallery_list(request):
-    """Список опубликованных альбомов."""
+    """Список опубликованных альбомов с пагинацией."""
     albums = (
         Album.objects.filter(is_published=True)
         .annotate(photos_count=Count('photos'))
         .select_related('match')
         .order_by('-date', 'order')
     )
+
+    paginator = Paginator(albums, c.PAGE_SIZE_GALLERY)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     return render(
         request,
         'gallery/list.html',
-        {'albums': albums},
+        {
+            'albums': page_obj,
+            'page_obj': page_obj,
+            'is_paginated': page_obj.has_other_pages(),
+        },
     )
 
 

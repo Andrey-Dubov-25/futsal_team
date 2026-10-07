@@ -1649,3 +1649,109 @@ main.container {
         max-height: 240px;
     }
 }
+
+/* ============================================================================
+   Trainings list
+   ========================================================================= */
+
+.trainings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.trainings-list--past {
+    opacity: 0.85;
+}
+
+.training-row {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 20px;
+    padding: 16px 20px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-left: 4px solid var(--color-primary);
+    border-radius: var(--radius);
+}
+
+.training-row--cancelled {
+    border-left-color: #dc3545;
+    opacity: 0.7;
+}
+
+.training-row--cancelled .training-row__title {
+    text-decoration: line-through;
+    text-decoration-color: var(--color-text-muted);
+}
+
+.training-row__date {
+    text-align: center;
+    line-height: 1.1;
+    align-self: start;
+}
+
+.training-row__date-day {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.training-row__date-month {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+}
+
+.training-row__title {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.training-row__meta {
+    font-size: 14px;
+    color: var(--color-text-muted);
+    margin-top: 4px;
+}
+
+.training-row__coach {
+    font-size: 14px;
+    color: var(--color-text-muted);
+    margin-top: 4px;
+}
+
+.training-row__comment {
+    font-size: 14px;
+    color: var(--color-text-muted);
+    margin-top: 8px;
+    font-style: italic;
+}
+
+.badge--cancelled {
+    display: inline-block;
+    padding: 2px 8px;
+    background: #f8d7da;
+    color: #58151c;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
+/* ============================================================================
+   Адаптив для тренировок
+   ========================================================================= */
+
+@media (max-width: 640px) {
+    .training-row {
+        grid-template-columns: 50px 1fr;
+        gap: 12px;
+        padding: 12px 16px;
+    }
+
+    .training-row__date-day {
+        font-size: 20px;
+    }
+}

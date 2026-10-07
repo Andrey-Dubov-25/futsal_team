@@ -13,6 +13,7 @@ from apps.matches.models import Match
 from apps.news.models import NewsPost
 from apps.players.models import Player
 from apps.staff.models import Staff
+from apps.training.models import Training
 
 from .forms import CommentForm
 from .services import get_player_stats, get_team_stats
@@ -214,4 +215,26 @@ def staff_list(request):
         request,
         'staff/list.html',
         {'staff': staff},
+    )
+
+
+def trainings_list(request):
+    """Страница расписания тренировок."""
+    now = timezone.now()
+
+    upcoming = (
+        Training.objects.filter(date__gte=now, is_cancelled=False)
+        .select_related('coach')
+        .order_by('date')
+    )
+    past = (
+        Training.objects.filter(date__lt=now)
+        .select_related('coach')
+        .order_by('-date')[:20]
+    )
+
+    return render(
+        request,
+        'training/list.html',
+        {'upcoming': upcoming, 'past': past},
     )

@@ -12,6 +12,7 @@ from apps.news.models import NewsPost
 from apps.players.models import Player
 
 from .forms import CommentForm
+from .services import get_player_stats, get_team_stats
 
 
 def home(request):
@@ -151,3 +152,23 @@ def add_comment(request, slug):
         request=request,
     )
     return HttpResponse(html)
+
+
+def stats_players(request):
+    """Страница статистики игроков."""
+    players = get_player_stats()
+    return render(
+        request,
+        'stats/players.html',
+        {'players': players},
+    )
+
+
+def stats_team(request):
+    """Страница статистики команды."""
+    stats = get_team_stats()
+    return render(
+        request,
+        'stats/team.html',
+        {'stats': stats},
+    )

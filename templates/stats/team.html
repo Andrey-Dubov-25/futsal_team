@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block title %}Статистика команды — Мини-футбольная команда{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="page-header">
+        <h1 class="page-header__title">Статистика команды</h1>
+        <p class="page-header__subtitle">
+            Итоги по завершённым матчам
+        </p>
+    </div>
+
+    <div class="stats-nav">
+        <a href="{% url 'web:stats-team' %}" class="active">Команда</a>
+        <a href="{% url 'web:stats-players' %}">Игроки</a>
+    </div>
+
+    {% if stats.matches_total %}
+        <div class="stats-cards">
+            <div class="stats-card">
+                <div class="stats-card__value">
+                    {{ stats.matches_total }}
+                </div>
+                <div class="stats-card__label">Матчей</div>
+            </div>
+            <div class="stats-card stats-card--win">
+                <div class="stats-card__value">
+                    {{ stats.matches_won }}
+                </div>
+                <div class="stats-card__label">Побед</div>
+            </div>
+            <div class="stats-card stats-card--draw">
+                <div class="stats-card__value">
+                    {{ stats.matches_drawn }}
+                </div>
+                <div class="stats-card__label">Ничьих</div>
+            </div>
+            <div class="stats-card stats-card--loss">
+                <div class="stats-card__value">
+                    {{ stats.matches_lost }}
+                </div>
+                <div class="stats-card__label">Поражений</div>
+            </div>
+        </div>
+
+        <div class="stats-cards">
+            <div class="stats-card">
+                <div class="stats-card__value">
+                    {{ stats.goals_scored }}
+                </div>
+                <div class="stats-card__label">Забито</div>
+            </div>
+            <div class="stats-card">
+                <div class="stats-card__value">
+                    {{ stats.goals_conceded }}
+                </div>
+                <div class="stats-card__label">Пропущено</div>
+            </div>
+            <div class="stats-card">
+                <div class="stats-card__value">
+                    {% if stats.goal_difference > 0 %}+{% endif %}{{ stats.goal_difference }}
+                </div>
+                <div class="stats-card__label">Разница</div>
+            </div>
+            <div class="stats-card">
+                <div class="stats-card__value">
+                    {{ stats.win_rate }}%
+                </div>
+                <div class="stats-card__label">% побед</div>
+            </div>
+        </div>
+
+        <div class="stats-averages">
+            <div>
+                <span class="stats-averages__label">
+                    Средняя результативность:
+                </span>
+                <strong>{{ stats.avg_goals_scored }}</strong>
+            </div>
+            <div>
+                <span class="stats-averages__label">
+                    Средняя пропускаемость:
+                </span>
+                <strong>{{ stats.avg_goals_conceded }}</strong>
+            </div>
+        </div>
+
+        {% if stats.form %}
+            <h2 class="section__title" style="margin-top: 32px;">
+                Форма (последние 5 матчей)
+            </h2>
+            <div class="form-badges">
+                {% for result in stats.form %}
+                    <span class="form-badge form-badge--{{ result|lower }}">
+                        {{ result }}
+                    </span>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="empty-state">
+            <p>Сыгранных матчей пока нет.</p>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

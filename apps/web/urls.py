@@ -32,4 +32,10 @@ urlpatterns = [
         views.add_comment,
         name='news-add-comment',
     ),
+    path('stats/', views.stats_team, name='stats-team'),
+    path(
+        'stats/players/',
+        views.stats_players,
+        name='stats-players',
+    ),
 ]

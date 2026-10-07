@@ -34,8 +34,10 @@
             </a>
         </article>
         <article class="card">
-            <h3>Статистика</h3>
-            <p>Таблица бомбардиров, форма команды.</p>
+            <a href="{% url 'web:stats-team' %}" class="card">
+                <h3>Статистика</h3>
+                <p>Таблица бомбардиров, форма команды.</p>
+            </a>
         </article>
         <article class="card">
             <a href="{% url 'web:news-list' %}" class="card">

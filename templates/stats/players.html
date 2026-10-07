@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}Бомбардиры — Мини-футбольная команда{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="page-header">
+        <h1 class="page-header__title">Статистика игроков</h1>
+        <p class="page-header__subtitle">
+            Голы, передачи и дисциплинарные показатели
+        </p>
+    </div>
+
+    <div class="stats-nav">
+        <a href="{% url 'web:stats-team' %}">Команда</a>
+        <a href="{% url 'web:stats-players' %}" class="active">
+            Игроки
+        </a>
+    </div>
+
+    {% if players %}
+        <div class="table-wrapper">
+            <table class="stats-table">
+                <thead>
+                    <tr>
+                        <th class="stats-table__num">#</th>
+                        <th>Игрок</th>
+                        <th class="stats-table__pos">Поз.</th>
+                        <th class="stats-table__num">Матчи</th>
+                        <th class="stats-table__num">Голы</th>
+                        <th class="stats-table__num">Передачи</th>
+                        <th class="stats-table__num">ЖК</th>
+                        <th class="stats-table__num">КК</th>
+                        <th class="stats-table__num stats-table__num--points">
+                            Очки
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for player in players %}
+                        <tr>
+                            <td class="stats-table__num">
+                                {{ player.number|default:"—" }}
+                            </td>
+                            <td>
+                                <a href="{% url 'web:player-detail' player.pk %}">
+                                    {{ player.full_name }}
+                                </a>
+                            </td>
+                            <td class="stats-table__pos">
+                                {{ player.position }}
+                            </td>
+                            <td class="stats-table__num">
+                                {{ player.matches_played }}
+                            </td>
+                            <td class="stats-table__num">
+                                {{ player.goals }}
+                            </td>
+                            <td class="stats-table__num">
+                                {{ player.assists }}
+                            </td>
+                            <td class="stats-table__num">
+                                {{ player.yellow_cards }}
+                            </td>
+                            <td class="stats-table__num">
+                                {{ player.red_cards }}
+                            </td>
+                            <td class="stats-table__num stats-table__num--points">
+                                {{ player.goals|add:player.assists }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <p>Статистика пока пуста.</p>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

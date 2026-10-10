@@ -1,20 +1,29 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Главная — Мини-футбольная команда{% endblock %}
 
 {% block content %}
 <section class="hero">
-    <h1>Мини-футбольная команда</h1>
-    <p class="hero__subtitle">
-        Домашняя арена — стадион «Дружба». Играем в городской любительской лиге.
-    </p>
-    <div class="hero__actions">
-        <a href="{% url 'web:matches-list' %}" class="btn btn--primary">
-            Смотреть матчи
-        </a>
-        <a href="{% url 'web:players-list' %}" class="btn btn--ghost">
-            Состав команды
-        </a>
+    <div class="hero__inner">
+        <div>
+            <h1>МФК «Восход»</h1>
+            <p class="hero__subtitle">
+                Мини-футбольный клуб из Владимира.
+                Играем в городской любительской лиге.
+            </p>
+            <div class="hero__actions">
+                <a href="{% url 'web:matches-list' %}" class="btn btn--primary">
+                    Смотреть матчи
+                </a>
+                <a href="{% url 'web:players-list' %}" class="btn btn--ghost">
+                    Состав команды
+                </a>
+            </div>
+        </div>
+        <img src="{% static 'img/logo.png' %}"
+             alt="МФК «Восход»"
+             class="hero__logo">
     </div>
 </section>
 

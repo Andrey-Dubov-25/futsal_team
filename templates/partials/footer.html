@@ -1,10 +1,14 @@
+{% load static %}
 <footer class="footer">
     <div class="container footer__inner">
-        <div>
-            © {% now "Y" %} ФК «Футзал». Все права защищены.
+        <div class="footer__brand">
+            <img src="{% static 'img/logo.png' %}"
+                 alt="МФК «Восход»"
+                 class="footer__logo">
+            <span>МФК «Восход» · Владимир</span>
         </div>
-        <div>
-            Сделано с ⚽ и Django
+        <div class="footer__copy">
+            © {% now "Y" %} МФК «Восход». Все права защищены.
         </div>
     </div>
 </footer>

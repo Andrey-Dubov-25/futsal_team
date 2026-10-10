@@ -47,19 +47,15 @@ class CommentForm(forms.ModelForm):
 
 
 class RegisterForm(UserCreationForm):
-    """Форма регистрации нового пользователя.
-
-    Использует UserCreationForm Django (пароль + подтверждение +
-    валидация), добавляет email и имя.
-    """
+    """Форма регистрации нового пользователя."""
 
     email = forms.EmailField(
         label='Email',
         required=False,
         widget=forms.EmailInput(
             attrs={
-                'class': 'form-input',
                 'placeholder': 'you@example.com',
+                'autocomplete': 'email',
             }
         ),
     )
@@ -69,8 +65,8 @@ class RegisterForm(UserCreationForm):
         max_length=c.STAFF_FIRST_NAME_MAX_LENGTH,
         widget=forms.TextInput(
             attrs={
-                'class': 'form-input',
                 'placeholder': 'Иван',
+                'autocomplete': 'given-name',
             }
         ),
     )
@@ -80,8 +76,8 @@ class RegisterForm(UserCreationForm):
         max_length=c.STAFF_LAST_NAME_MAX_LENGTH,
         widget=forms.TextInput(
             attrs={
-                'class': 'form-input',
                 'placeholder': 'Иванов',
+                'autocomplete': 'family-name',
             }
         ),
     )
@@ -99,18 +95,20 @@ class RegisterForm(UserCreationForm):
         super().__init__(*args, **kwargs)
         self.fields['username'].widget.attrs.update(
             {
-                'class': 'form-input',
-                'placeholder': 'ivanov',
+                'placeholder': 'Ваш логин',
+                'autocomplete': 'username',
             }
         )
         self.fields['password1'].widget.attrs.update(
             {
-                'class': 'form-input',
+                'placeholder': 'Минимум 8 символов',
+                'autocomplete': 'new-password',
             }
         )
         self.fields['password2'].widget.attrs.update(
             {
-                'class': 'form-input',
+                'placeholder': 'Повторите пароль',
+                'autocomplete': 'new-password',
             }
         )
 
@@ -124,20 +122,20 @@ class RegisterForm(UserCreationForm):
 
 
 class LoginForm(AuthenticationForm):
-    """Форма входа — те же поля, но со стилями."""
+    """Форма входа."""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['username'].widget.attrs.update(
             {
-                'class': 'form-input',
                 'placeholder': 'Ваш логин',
+                'autocomplete': 'username',
                 'autofocus': True,
             }
         )
         self.fields['password'].widget.attrs.update(
             {
-                'class': 'form-input',
                 'placeholder': 'Пароль',
+                'autocomplete': 'current-password',
             }
         )

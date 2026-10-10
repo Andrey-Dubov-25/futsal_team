@@ -1,21 +1,36 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Вход — Мини-футбольная команда{% endblock %}
+{% block title %}Вход — МФК «Восход»{% endblock %}
+
+{% block meta_description %}
+Вход в личный кабинет болельщика МФК «Восход».
+{% endblock %}
 
 {% block content %}
 <section class="auth-section">
     <div class="auth-card">
+        <div class="auth-card__brand">
+            <img src="{% static 'img/logo.png' %}"
+                 alt="МФК «Восход»"
+                 class="auth-card__logo">
+            <div class="auth-card__brand-name">Восход</div>
+            <div class="auth-card__brand-city">Владимир</div>
+        </div>
+
         <h1 class="auth-card__title">Вход</h1>
         <p class="auth-card__subtitle">
             Войдите, чтобы оставлять комментарии
         </p>
 
-        <form method="post" class="auth-form">
+        <form method="post" class="auth-form" novalidate>
             {% csrf_token %}
 
             {% if form.non_field_errors %}
-                <div class="form-errors">
-                    {{ form.non_field_errors }}
+                <div class="form-errors form-errors--block">
+                    {% for error in form.non_field_errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
                 </div>
             {% endif %}
 
@@ -26,7 +41,9 @@
                 {{ form.username }}
                 {% if form.username.errors %}
                     <div class="form-errors">
-                        {{ form.username.errors }}
+                        {% for error in form.username.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
                     </div>
                 {% endif %}
             </div>
@@ -38,7 +55,9 @@
                 {{ form.password }}
                 {% if form.password.errors %}
                     <div class="form-errors">
-                        {{ form.password.errors }}
+                        {% for error in form.password.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
                     </div>
                 {% endif %}
             </div>

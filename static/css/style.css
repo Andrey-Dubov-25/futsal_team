@@ -749,3 +749,395 @@ main.container {
         text-align: center;
     }
 }
+
+/* ============================================================================
+   Auth pages
+   ========================================================================= */
+
+.auth-section {
+    max-width: 520px;
+    margin: 40px auto 80px;
+    animation: authFadeIn 0.4s ease-out;
+}
+
+.auth-section .auth-card--wide {
+    max-width: 620px;
+}
+
+@keyframes authFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.auth-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 40px 40px 36px;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+.auth-card--wide {
+    max-width: 620px;
+}
+
+/* Жёлтая полоса сверху */
+.auth-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(
+        90deg,
+        var(--brand-yellow) 0%,
+        var(--brand-orange) 100%
+    );
+}
+
+/* --- Бренд-блок в шапке карточки --- */
+
+.auth-card__brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 28px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.auth-card__logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--brand-yellow);
+    box-shadow: 0 4px 16px rgba(255, 213, 0, 0.3);
+    margin-bottom: 12px;
+}
+
+.auth-card__brand-name {
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text);
+    line-height: 1;
+}
+
+.auth-card__brand-city {
+    font-size: 12px;
+    color: var(--brand-orange);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    margin-top: 4px;
+}
+
+/* --- Заголовки --- */
+
+.auth-card__title {
+    font-size: 32px;
+    margin: 0 0 8px;
+    text-align: center;
+    letter-spacing: 0.02em;
+}
+
+.auth-card__subtitle {
+    color: var(--color-text-muted);
+    text-align: center;
+    margin: 0 0 28px;
+    font-size: 15px;
+}
+
+/* --- Форма --- */
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+}
+
+.form-required {
+    color: var(--brand-orange);
+    font-weight: 700;
+}
+
+/* Поля ввода — жёлтый фокус */
+.auth-form input[type="text"],
+.auth-form input[type="email"],
+.auth-form input[type="password"] {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius);
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    background: var(--color-bg-elevated);
+    color: var(--color-text);
+    box-sizing: border-box;
+    transition: border-color var(--transition), box-shadow var(--transition),
+                background var(--transition);
+}
+
+.auth-form input::placeholder {
+    color: var(--color-text-muted);
+    opacity: 0.6;
+}
+
+.auth-form input:hover {
+    border-color: var(--color-border-strong);
+}
+
+.auth-form input:focus {
+    outline: none;
+    border-color: var(--brand-yellow);
+    box-shadow: 0 0 0 4px rgba(255, 213, 0, 0.15);
+    background: var(--color-surface);
+}
+
+/* Двухколоночная сетка (имя/фамилия) */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+/* Хелп-текст (требования к паролю) */
+.form-help {
+    font-size: 12px;
+    color: var(--color-text-muted);
+    margin-top: 4px;
+    line-height: 1.5;
+}
+
+.form-help ul {
+    margin: 4px 0 0;
+    padding-left: 18px;
+}
+
+.form-help li {
+    margin-bottom: 2px;
+}
+
+/* Ошибки — красно-акцентный блок */
+.form-errors {
+    color: var(--color-danger);
+    font-size: 13px;
+    line-height: 1.4;
+    padding-left: 10px;
+    border-left: 3px solid var(--color-danger);
+    margin-top: 4px;
+}
+
+.form-errors p {
+    margin: 2px 0;
+}
+
+.form-errors--block {
+    background: rgba(220, 53, 69, 0.08);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    border-left: 3px solid var(--color-danger);
+    margin-bottom: 8px;
+}
+
+.form-errors--block p {
+    margin: 4px 0;
+}
+
+/* Кнопки */
+.btn--block {
+    width: 100%;
+    padding: 16px 20px;
+    font-size: 16px;
+    margin-top: 8px;
+}
+
+/* Футер карточки */
+.auth-card__footer {
+    margin: 24px 0 0;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-border);
+    text-align: center;
+    font-size: 14px;
+    color: var(--color-text-muted);
+}
+
+.auth-card__footer a {
+    color: var(--brand-orange);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px dashed currentColor;
+    transition: color var(--transition), border-color var(--transition);
+}
+
+.auth-card__footer a:hover {
+    color: var(--brand-yellow-dark);
+    border-bottom-color: transparent;
+}
+
+/* ============================================================================
+   Profile page
+   ========================================================================= */
+
+.profile-section {
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.profile-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(
+        90deg,
+        var(--brand-yellow) 0%,
+        var(--brand-orange) 100%
+    );
+}
+
+.profile-card__header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 24px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.profile-card__avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--brand-black);
+    color: var(--brand-yellow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Oswald', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: 3px solid var(--brand-yellow);
+    box-shadow: 0 4px 16px rgba(255, 213, 0, 0.25);
+}
+
+.profile-card__avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-card__username {
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.profile-card__name {
+    color: var(--color-text-muted);
+    font-size: 14px;
+    margin-top: 2px;
+}
+
+.profile-card__role {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 3px 12px;
+    background: rgba(255, 213, 0, 0.15);
+    color: var(--brand-orange);
+    border-radius: var(--radius-full);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.profile-card__actions {
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* ============================================================================
+   Адаптив для auth
+   ========================================================================= */
+
+@media (max-width: 640px) {
+    .auth-section {
+        margin: 24px auto 60px;
+    }
+
+    .auth-card {
+        padding: 28px 24px 24px;
+        border-radius: var(--radius);
+    }
+
+    .auth-card__logo {
+        width: 64px;
+        height: 64px;
+    }
+
+    .auth-card__title {
+        font-size: 26px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-card {
+        padding: 24px 20px;
+    }
+
+    .profile-card__header {
+        flex-direction: column;
+        text-align: center;
+    }
+}

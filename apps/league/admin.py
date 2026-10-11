@@ -122,11 +122,13 @@ class BefutsalTournamentAdmin(admin.ModelAdmin):
         'points_display',
         'place_display',
         'is_active',
+        'is_pinned',
     )
     list_display_links = ('order', 'name')
-    list_editable = ('is_active',)
+    list_editable = ('is_active', 'is_pinned')
     list_filter = (
         'is_active',
+        'is_pinned',
         'season',
         'place',
     )
@@ -172,12 +174,46 @@ class BefutsalTournamentAdmin(admin.ModelAdmin):
         (
             'Отображение',
             {
-                'fields': ('order', 'is_active', 'updated_at'),
+                'fields': (
+                    'order',
+                    'is_active',
+                    'is_pinned',
+                    'updated_at',
+                ),
             },
         ),
     )
 
-    actions = ['mark_active', 'mark_inactive']
+    actions = [
+        'mark_active',
+        'mark_inactive',
+        'pin_active',
+        'unpin',
+    ]
+
+    @admin.action(description='📌 Закрепить (sync не тронет)')
+    def pin_active(self, request, queryset):
+        updated = queryset.update(is_pinned=True)
+        self.message_user(
+            request,
+            f'Закреплено: {updated}. '
+            'Теперь sync_befutsal не будет менять is_active.',
+            messages.SUCCESS,
+        )
+
+    @admin.action(description='📌 Открепить (sync снова управляет)')
+    def unpin(self, request, queryset):
+        updated = queryset.update(is_pinned=False)
+        self.message_user(
+            request,
+            f'Откреплено: {updated}. '
+            'Теперь sync_befutsal управляет is_active.',
+            messages.SUCCESS,
+        )
+
+    @admin.display(boolean=True, description='📌')
+    def is_pinned(self, obj):
+        return obj.is_pinned
 
     @admin.display(description='В-Н-П')
     def record_display(self, obj):

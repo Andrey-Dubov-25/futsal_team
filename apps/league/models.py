@@ -129,6 +129,20 @@ class BefutsalTournament(models.Model):
         default=False,
         help_text='Текущий сезон — выделяется на сайте',
     )
+    is_active = models.BooleanField(
+        'Активный',
+        default=False,
+        help_text='Текущий сезон — выделяется на сайте',
+    )
+    is_pinned = models.BooleanField(
+        'Закреплён вручную',
+        default=False,
+        help_text=(
+            'Если True — sync_befutsal не перезаписывает is_active. '
+            'Используй для скоротечных турниров, чтобы переместить '
+            'их вручную в прошедшие.'
+        ),
+    )
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:

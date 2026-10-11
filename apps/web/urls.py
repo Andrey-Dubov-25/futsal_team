@@ -28,6 +28,7 @@ urlpatterns = [
         name='player-detail',
     ),
     path('staff/', views.staff_list, name='staff-list'),
+    path('tournaments/', views.tournaments_list, name='tournaments-list'),
     path('trainings/', views.trainings_list, name='trainings-list'),
     path('matches/', views.matches_list, name='matches-list'),
     path(

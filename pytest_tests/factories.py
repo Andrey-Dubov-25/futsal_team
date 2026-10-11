@@ -8,6 +8,7 @@ from django.utils import timezone
 
 from apps.accounts.models import User
 from apps.gallery.models import Album, Photo
+from apps.league.models import BefutsalSnapshot, BefutsalTournament
 from apps.matches.models import Match, MatchEvent
 from apps.news.models import Comment, NewsPost
 from apps.players.models import Player
@@ -175,3 +176,48 @@ class PhotoFactory(factory.django.DjangoModelFactory):
             content_type='image/jpeg',
         ),
     )
+
+
+# =============================================================================
+# League (Befutsal)
+# =============================================================================
+
+
+class BefutsalSnapshotFactory(factory.django.DjangoModelFactory):
+    """Фабрика снимка статистики с Befutsal."""
+
+    class Meta:
+        model = BefutsalSnapshot
+
+    founded_year = 2021
+    ranking_place = 76
+    total_matches = 205
+    total_won = 99
+    total_drawn = 25
+    total_lost = 81
+    total_goals_scored = 859
+    total_goals_conceded = 695
+
+
+class BefutsalTournamentFactory(factory.django.DjangoModelFactory):
+    """Фабрика турнира Befutsal."""
+
+    class Meta:
+        model = BefutsalTournament
+
+    external_id = factory.Sequence(lambda n: f'external_{n}')
+    name = factory.Sequence(lambda n: f'Турнир {n}')
+    season = 'Лето 2026'
+    competition = '4-я лига. Зона Б'
+    matches = 15
+    won = 12
+    drawn = 2
+    lost = 1
+    goals_scored = 88
+    goals_conceded = 30
+    points = 38
+    percent = 84
+    place = 1
+    order = 0
+    is_active = False
+    is_pinned = False

@@ -69,6 +69,13 @@ class Command(BaseCommand):
             f'обновлено: {stats["updated"]}, '
             f'активных: {stats["active"]}',
         )
+        if stats.get('skipped_active'):
+            self.stdout.write(
+                self.style.WARNING(
+                    f'Пропущено (закреплены вручную): '
+                    f'{stats["skipped_active"]}',
+                ),
+            )
 
     def _save_snapshot(self, page):
         """Сохранить снимок общей статистики."""
@@ -114,55 +121,45 @@ class Command(BaseCommand):
         """Обновить/создать турниры, отметить активные."""
         created = 0
         updated = 0
+        skipped_active = 0
 
-        # Определяем активные — самые свежие сезоны (по порядку сверху)
         active_orders = self._detect_active_orders(tournaments)
 
         for t in tournaments:
             is_active = t.order in active_orders
 
+            # Ищем существующий турнир
             if t.external_id:
-                # Турнир с ID на Befutsal
-                obj, was_created = BefutsalTournament.objects.update_or_create(
+                existing = BefutsalTournament.objects.filter(
                     external_id=t.external_id,
-                    defaults={
-                        'name': t.name,
-                        'season': t.season,
-                        'competition': t.competition,
-                        'matches': t.matches,
-                        'won': t.won,
-                        'drawn': t.drawn,
-                        'lost': t.lost,
-                        'goals_scored': t.goals_scored,
-                        'goals_conceded': t.goals_conceded,
-                        'points': t.points,
-                        'percent': t.percent,
-                        'place': t.place,
-                        'order': t.order,
-                        'is_active': is_active,
-                    },
-                )
+                ).first()
+                lookup = {'external_id': t.external_id}
             else:
-                # Турнир без ID — уникальный по имени
-                obj, was_created = BefutsalTournament.objects.update_or_create(
+                existing = BefutsalTournament.objects.filter(
                     name=t.name,
                     external_id__isnull=True,
-                    defaults={
-                        'season': t.season,
-                        'competition': t.competition,
-                        'matches': t.matches,
-                        'won': t.won,
-                        'drawn': t.drawn,
-                        'lost': t.lost,
-                        'goals_scored': t.goals_scored,
-                        'goals_conceded': t.goals_conceded,
-                        'points': t.points,
-                        'percent': t.percent,
-                        'place': t.place,
-                        'order': t.order,
-                        'is_active': is_active,
-                    },
+                ).first()
+                lookup = {'name': t.name, 'external_id__isnull': True}
+
+            # Определяем, обновлять ли is_active
+            if existing and existing.is_pinned:
+                # Закреплён — не трогаем is_active
+                update_data = self._build_update_data(
+                    t,
+                    is_active=None,  # None = не трогать
                 )
+                skipped_active += 1
+            else:
+                # Обычное обновление, включая is_active
+                update_data = self._build_update_data(
+                    t,
+                    is_active=is_active,
+                )
+
+            obj, was_created = BefutsalTournament.objects.update_or_create(
+                **lookup,
+                defaults=update_data,
+            )
 
             if was_created:
                 created += 1
@@ -173,7 +170,33 @@ class Command(BaseCommand):
             'created': created,
             'updated': updated,
             'active': len(active_orders),
+            'skipped_active': skipped_active,
         }
+
+    @staticmethod
+    def _build_update_data(parsed, is_active):
+        """Собрать defaults для update_or_create.
+
+        Если is_active=None — поле не включается в обновление.
+        """
+        data = {
+            'name': parsed.name,
+            'season': parsed.season,
+            'competition': parsed.competition,
+            'matches': parsed.matches,
+            'won': parsed.won,
+            'drawn': parsed.drawn,
+            'lost': parsed.lost,
+            'goals_scored': parsed.goals_scored,
+            'goals_conceded': parsed.goals_conceded,
+            'points': parsed.points,
+            'percent': parsed.percent,
+            'place': parsed.place,
+            'order': parsed.order,
+        }
+        if is_active is not None:
+            data['is_active'] = is_active
+        return data
 
     @staticmethod
     def _detect_active_orders(tournaments):

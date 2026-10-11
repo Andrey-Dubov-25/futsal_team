@@ -1,6 +1,7 @@
 """Глобальные фикстуры для всех тестов проекта."""
 
 from datetime import timedelta
+from pathlib import Path
 
 import pytest
 from django.utils import timezone
@@ -355,3 +356,26 @@ def album(db):
 def photo_in_album(db, album):
     """Фотография в альбоме."""
     return PhotoFactory(album=album, caption='Победный гол')
+
+
+# =============================================================================
+# Befutsal — HTML фикстура
+# =============================================================================
+
+BEFUTSAL_FIXTURES_DIR = Path(__file__).parent / 'league' / 'fixtures'
+BEFUTSAL_HTML_PATH = BEFUTSAL_FIXTURES_DIR / 'befutsal_club.html'
+
+
+@pytest.fixture
+def befutsal_html():
+    """Реальный HTML страницы команды с befutsal.ru.
+
+    Сохранён один раз в pytest_tests/league/fixtures/befutsal_club.html.
+    Используется в тестах для парсинга без сетевых запросов.
+    """
+    if not BEFUTSAL_HTML_PATH.exists():
+        pytest.skip(
+            f'Фикстура не найдена: {BEFUTSAL_HTML_PATH}. '
+            'Смотри pytest_tests/league/conftest.py для инструкции.',
+        )
+    return BEFUTSAL_HTML_PATH.read_text(encoding='utf-8')

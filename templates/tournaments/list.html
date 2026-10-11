@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+
+{% block title %}Турниры — МФК «Восход»{% endblock %}
+
+{% block meta_description %}
+Выступления МФК «Восход» в турнирах городской федерации футбола:
+места, очки, статистика по сезонам.
+{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="page-header">
+        <h1 class="page-header__title">Турниры</h1>
+        <p class="page-header__subtitle">
+            Выступления команды в турнирах городской федерации
+        </p>
+    </div>
+
+    {% if snapshot %}
+        <div class="tournaments-summary">
+            {% if snapshot.founded_year %}
+                <div class="tournaments-summary__item">
+                    <div class="tournaments-summary__value">
+                        {{ snapshot.founded_year }}
+                    </div>
+                    <div class="tournaments-summary__label">
+                        Год основания
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if snapshot.ranking_place %}
+                <div class="tournaments-summary__item">
+                    <div class="tournaments-summary__value">
+                        {{ snapshot.ranking_place }}
+                    </div>
+                    <div class="tournaments-summary__label">
+                        Место в рейтинге
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="tournaments-summary__item">
+                <div class="tournaments-summary__value">
+                    {{ snapshot.total_matches }}
+                </div>
+                <div class="tournaments-summary__label">
+                    Игр за всё время
+                </div>
+            </div>
+
+            <div class="tournaments-summary__item tournaments-summary__item--win">
+                <div class="tournaments-summary__value">
+                    {{ snapshot.total_won }}
+                </div>
+                <div class="tournaments-summary__label">
+                    Побед
+                </div>
+            </div>
+
+            <div class="tournaments-summary__item">
+                <div class="tournaments-summary__value">
+                    {{ snapshot.win_rate }}%
+                </div>
+                <div class="tournaments-summary__label">
+                    Процент побед
+                </div>
+            </div>
+
+            <div class="tournaments-summary__item">
+                <div class="tournaments-summary__value">
+                    {{ snapshot.total_goals_scored }}
+                </div>
+                <div class="tournaments-summary__label">
+                    Забито
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if active_tournaments %}
+        <h2 class="section__title">Текущий сезон</h2>
+        <div class="table-wrapper">
+            <table class="tournaments-table">
+                <thead>
+                    <tr>
+                        <th>Турнир</th>
+                        <th class="tournaments-table__num">И</th>
+                        <th class="tournaments-table__num">В</th>
+                        <th class="tournaments-table__num">Н</th>
+                        <th class="tournaments-table__num">П</th>
+                        <th class="tournaments-table__num">Мячи</th>
+                        <th class="tournaments-table__num">Очки</th>
+                        <th class="tournaments-table__num">Место</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for t in active_tournaments %}
+                        <tr class="tournaments-table__row--active">
+                            <td class="tournaments-table__name">
+                                {{ t.name }}
+                                {% if t.befutsal_url %}
+                                    <a href="{{ t.befutsal_url }}"
+                                       target="_blank"
+                                       rel="noopener"
+                                       class="tournaments-table__link">
+                                        ↗
+                                    </a>
+                                {% endif %}
+                            </td>
+                            <td class="tournaments-table__num">{{ t.matches }}</td>
+                            <td class="tournaments-table__num">{{ t.won }}</td>
+                            <td class="tournaments-table__num">{{ t.drawn }}</td>
+                            <td class="tournaments-table__num">{{ t.lost }}</td>
+                            <td class="tournaments-table__num">
+                                {{ t.goals_scored }}-{{ t.goals_conceded }}
+                            </td>
+                            <td class="tournaments-table__num">
+                                {{ t.points }}
+                                {% if t.percent %}
+                                    <span class="tournaments-table__percent">
+                                        ({{ t.percent }}%)
+                                    </span>
+                                {% endif %}
+                            </td>
+                            <td class="tournaments-table__num">
+                                {% if t.place %}
+                                    {% if t.place == 1 %}🥇
+                                    {% elif t.place == 2 %}🥈
+                                    {% elif t.place == 3 %}🥉
+                                    {% endif %}
+                                    {{ t.place }}
+                                {% else %}
+                                    <span class="tournaments-table__dash">—</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+
+    {% if past_tournaments %}
+        <h2 class="section__title" style="margin-top: 48px;">
+            Прошедшие турниры
+        </h2>
+        <div class="table-wrapper">
+            <table class="tournaments-table">
+                <thead>
+                    <tr>
+                        <th>Турнир</th>
+                        <th class="tournaments-table__num">И</th>
+                        <th class="tournaments-table__num">В</th>
+                        <th class="tournaments-table__num">Н</th>
+                        <th class="tournaments-table__num">П</th>
+                        <th class="tournaments-table__num">Мячи</th>
+                        <th class="tournaments-table__num">Очки</th>
+                        <th class="tournaments-table__num">Место</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for t in past_tournaments %}
+                        <tr class="{% if t.is_champion %}tournaments-table__row--champion{% endif %}">
+                            <td class="tournaments-table__name">
+                                {{ t.name }}
+                                {% if t.befutsal_url %}
+                                    <a href="{{ t.befutsal_url }}"
+                                       target="_blank"
+                                       rel="noopener"
+                                       class="tournaments-table__link">
+                                        ↗
+                                    </a>
+                                {% endif %}
+                            </td>
+                            <td class="tournaments-table__num">{{ t.matches }}</td>
+                            <td class="tournaments-table__num">{{ t.won }}</td>
+                            <td class="tournaments-table__num">{{ t.drawn }}</td>
+                            <td class="tournaments-table__num">{{ t.lost }}</td>
+                            <td class="tournaments-table__num">
+                                {{ t.goals_scored }}-{{ t.goals_conceded }}
+                            </td>
+                            <td class="tournaments-table__num">
+                                {{ t.points }}
+                                {% if t.percent %}
+                                    <span class="tournaments-table__percent">
+                                        ({{ t.percent }}%)
+                                    </span>
+                                {% endif %}
+                            </td>
+                            <td class="tournaments-table__num">
+                                {% if t.place %}
+                                    {% if t.place == 1 %}🥇
+                                    {% elif t.place == 2 %}🥈
+                                    {% elif t.place == 3 %}🥉
+                                    {% endif %}
+                                    {{ t.place }}
+                                {% else %}
+                                    <span class="tournaments-table__dash">—</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+
+    {% if not active_tournaments and not past_tournaments %}
+        <div class="empty-state">
+            <p>Данные о турнирах пока не загружены.</p>
+        </div>
+    {% endif %}
+
+    <div class="tournaments-footer">
+        <a href="https://befutsal.ru/club.php?t=224668574"
+           target="_blank"
+           rel="noopener"
+           class="btn btn--ghost">
+            Полный профиль на Befutsal ↗
+        </a>
+    </div>
+</section>
+{% endblock %}

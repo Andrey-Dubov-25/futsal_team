@@ -14,6 +14,7 @@ from django.utils import timezone
 from django.views.decorators.http import require_POST
 
 from apps.gallery.models import Album
+from apps.league.models import BefutsalSnapshot, BefutsalTournament
 from apps.matches.models import Match
 from apps.news.models import NewsPost
 from apps.players.models import Player
@@ -386,4 +387,23 @@ def sitemap_xml(request):
     return HttpResponse(
         '\n'.join(lines),
         content_type='application/xml',
+    )
+
+
+def tournaments_list(request):
+    """Страница выступлений команды в турнирах Лиги."""
+    tournaments = BefutsalTournament.objects.all().order_by('order')
+    snapshot = BefutsalSnapshot.objects.first()
+
+    active = [t for t in tournaments if t.is_active]
+    past = [t for t in tournaments if not t.is_active]
+
+    return render(
+        request,
+        'tournaments/list.html',
+        {
+            'active_tournaments': active,
+            'past_tournaments': past,
+            'snapshot': snapshot,
+        },
     )

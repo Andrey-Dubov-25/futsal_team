@@ -1,0 +1,12 @@
+{% extends "admin/change_list.html" %}
+
+{% block object-tools-items %}
+    {{ block.super }}
+    <li>
+        <a href="{{ run_sync_url }}"
+           class="historylink"
+           style="background: #FFD500; color: #0A0A0A;">
+            🔄 Запустить sync_befutsal
+        </a>
+    </li>
+{% endblock %}

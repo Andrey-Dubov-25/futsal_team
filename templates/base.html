@@ -22,7 +22,27 @@
           rel="stylesheet">
 
     {# Стили #}
+    {# Основной файл — переменные, reset, layout #}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    {# Модули — компоненты и страницы #}
+    <link rel="stylesheet" href="{% static 'css/modules/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modules/buttons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modules/cards.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modules/hero.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modules/auth.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modules/players.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modules/matches.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modules/news.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modules/staff.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modules/trainings.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modules/gallery.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modules/stats.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modules/pagination.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modules/errors.css' %}">
+
+    {# Адаптив — подключаем последним, чтобы перекрывал основные правила #}
+    <link rel="stylesheet" href="{% static 'css/modules/responsive.css' %}">
 
     {# Тема (подключаем до body, чтобы избежать мигания) #}
     <script src="{% static 'js/theme.js' %}"></script>

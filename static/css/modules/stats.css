@@ -1,0 +1,186 @@
+/* ============================================================================
+   Stats: nav, table, cards, form badges, averages
+   ========================================================================= */
+
+.stats-nav {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 32px;
+    border-bottom: 2px solid var(--color-border);
+}
+
+.stats-nav a {
+    padding: 12px 20px;
+    color: var(--color-text-muted);
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 14px;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: color var(--transition), border-color var(--transition);
+}
+
+.stats-nav a:hover {
+    color: var(--brand-orange);
+}
+
+.stats-nav a.active {
+    color: var(--color-text);
+    border-bottom-color: var(--brand-yellow);
+}
+
+/* ============================================================================
+   Table
+   ========================================================================= */
+
+.table-wrapper {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow-x: auto;
+}
+
+.stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+}
+
+.stats-table th,
+.stats-table td {
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.stats-table thead th {
+    background: var(--color-bg);
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+}
+
+.stats-table tbody tr {
+    transition: background var(--transition);
+}
+
+.stats-table tbody tr:hover {
+    background: var(--color-surface-hover);
+}
+
+.stats-table__num {
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+    width: 60px;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+}
+
+.stats-table__num--points {
+    font-weight: 700;
+    color: var(--brand-orange);
+    font-size: 17px;
+}
+
+.stats-table__pos {
+    width: 60px;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: var(--color-text-muted);
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 0.08em;
+}
+
+/* ============================================================================
+   Stats cards
+   ========================================================================= */
+
+.stats-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.stats-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 20px 24px;
+    text-align: center;
+    transition: transform var(--transition), border-color var(--transition);
+}
+
+.stats-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--brand-yellow);
+}
+
+.stats-card--win { border-left: 4px solid var(--color-success); }
+.stats-card--draw { border-left: 4px solid var(--color-warning); }
+.stats-card--loss { border-left: 4px solid var(--color-danger); }
+
+.stats-card__value {
+    font-family: 'Oswald', sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 8px;
+    color: var(--color-text);
+}
+
+.stats-card__label {
+    color: var(--color-text-muted);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-family: 'Oswald', sans-serif;
+}
+
+/* ============================================================================
+   Averages + form badges
+   ========================================================================= */
+
+.stats-averages {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    padding: 20px 24px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    font-size: 15px;
+}
+
+.stats-averages__label {
+    color: var(--color-text-muted);
+    margin-right: 8px;
+}
+
+.form-badges {
+    display: flex;
+    gap: 8px;
+}
+
+.form-badge {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    color: white;
+    font-size: 16px;
+}
+
+.form-badge--w { background: var(--color-success); }
+.form-badge--d { background: var(--color-warning); color: #664D03; }
+.form-badge--l { background: var(--color-danger); }

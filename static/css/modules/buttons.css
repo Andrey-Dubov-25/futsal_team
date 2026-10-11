@@ -1,0 +1,113 @@
+/* ============================================================================
+   Buttons
+   ========================================================================= */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: var(--radius);
+    font-family: 'Oswald', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all var(--transition);
+    text-decoration: none;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.btn--primary {
+    background: var(--brand-yellow);
+    color: var(--brand-black);
+    border-color: var(--brand-yellow);
+}
+
+.btn--primary:hover {
+    background: var(--brand-yellow-dark);
+    border-color: var(--brand-yellow-dark);
+    color: var(--brand-black);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-accent);
+}
+
+.btn--secondary {
+    background: var(--brand-black);
+    color: white;
+    border-color: var(--brand-black);
+}
+
+[data-theme="dark"] .btn--secondary {
+    background: var(--color-surface);
+    color: var(--color-text);
+    border-color: var(--color-border);
+}
+
+.btn--secondary:hover {
+    background: transparent;
+    color: var(--brand-black);
+}
+
+[data-theme="dark"] .btn--secondary:hover {
+    color: var(--color-text);
+    border-color: var(--brand-yellow);
+}
+
+.btn--ghost {
+    background: transparent;
+    color: inherit;
+    border-color: currentColor;
+}
+
+.btn--ghost:hover {
+    background: rgba(255, 213, 0, 0.1);
+    border-color: var(--brand-yellow);
+    color: var(--brand-yellow);
+}
+
+.btn--small {
+    padding: 8px 16px;
+    font-size: 13px;
+}
+
+.btn--block {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 16px;
+}
+
+.btn--danger {
+    color: var(--color-danger);
+    border-color: var(--color-danger);
+}
+
+.btn--danger:hover {
+    background: var(--color-danger);
+    color: white;
+    border-color: var(--color-danger);
+}
+
+/* Кнопки в шапке */
+.header__auth .btn--ghost {
+    color: white;
+    border-color: rgba(255, 255, 255, 0.3);
+    padding: 8px 14px;
+    font-size: 13px;
+    font-family: 'Oswald', sans-serif;
+}
+
+.header__auth .btn--ghost:hover {
+    color: var(--brand-yellow);
+    border-color: var(--brand-yellow);
+    background: rgba(255, 213, 0, 0.1);
+}
+
+.header__auth .btn--primary {
+    padding: 8px 16px;
+    font-size: 13px;
+}

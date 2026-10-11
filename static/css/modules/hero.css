@@ -1,0 +1,83 @@
+/* ============================================================================
+   Hero — главная страница
+   ========================================================================= */
+
+.hero {
+    background: linear-gradient(135deg, #1A1A1A 0%, #0A0A0A 100%);
+    color: white;
+    padding: 72px 40px;
+    border-radius: var(--radius-lg);
+    margin-bottom: 48px;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 15% 50%, rgba(255, 213, 0, 0.15), transparent 45%),
+        radial-gradient(circle at 85% 20%, rgba(232, 160, 0, 0.12), transparent 40%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--brand-yellow), var(--brand-orange));
+    z-index: 1;
+}
+
+.hero__inner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: center;
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.hero__logo {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--brand-yellow);
+    box-shadow: 0 8px 32px rgba(255, 213, 0, 0.35);
+    animation: heroFloat 4s ease-in-out infinite;
+}
+
+@keyframes heroFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+.hero h1 {
+    font-size: clamp(32px, 5vw, 52px);
+    margin: 0 0 12px;
+    letter-spacing: 0.02em;
+    color: white;
+}
+
+.hero__subtitle {
+    font-size: clamp(15px, 2vw, 18px);
+    opacity: 0.85;
+    max-width: 560px;
+    margin: 0 0 32px;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.hero__actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}

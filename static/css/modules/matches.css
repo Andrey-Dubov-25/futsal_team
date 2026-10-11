@@ -1,0 +1,315 @@
+/* ============================================================================
+   Matches list + Match row + Match detail
+   ========================================================================= */
+
+.matches-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.match-row {
+    display: grid;
+    grid-template-columns: 60px 1fr auto auto;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-left: 4px solid var(--color-border);
+    border-radius: var(--radius);
+    color: var(--color-text);
+    text-decoration: none;
+    transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.match-row:hover {
+    transform: translateX(4px);
+    box-shadow: var(--shadow);
+    color: var(--color-text);
+}
+
+.match-row--w {
+    border-left-color: var(--color-success);
+}
+
+.match-row--l {
+    border-left-color: var(--color-danger);
+}
+
+.match-row--d {
+    border-left-color: var(--color-warning);
+}
+
+.match-row--upcoming {
+    border-left-color: var(--brand-yellow);
+}
+
+.match-row__date {
+    text-align: center;
+    line-height: 1.1;
+    font-family: 'Oswald', sans-serif;
+}
+
+.match-row__date-day {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.match-row__date-month {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    letter-spacing: 0.08em;
+}
+
+.match-row__opponent {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 17px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.match-row__meta {
+    font-size: 13px;
+    color: var(--color-text-muted);
+    margin-top: 4px;
+}
+
+.match-row__status,
+.match-row__result {
+    font-size: 13px;
+    color: var(--color-text-muted);
+    text-align: right;
+    min-width: 100px;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.match-row__score {
+    text-align: right;
+}
+
+.score {
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+.score--w { color: var(--color-success); }
+.score--l { color: var(--color-danger); }
+.score--d { color: var(--color-warning); }
+
+/* ============================================================================
+   Badge (home/away/cancelled)
+   ========================================================================= */
+
+.badge {
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: 10px;
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+}
+
+.badge--home {
+    background: rgba(25, 135, 84, 0.15);
+    color: var(--color-success);
+}
+
+.badge--away {
+    background: rgba(220, 53, 69, 0.15);
+    color: var(--color-danger);
+}
+
+.badge--cancelled {
+    background: rgba(220, 53, 69, 0.15);
+    color: var(--color-danger);
+}
+
+/* ============================================================================
+   Match hero (детальная страница матча)
+   ========================================================================= */
+
+.match-hero {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 40px 24px;
+    margin-bottom: 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.match-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--brand-yellow), var(--brand-orange));
+}
+
+.match-hero__meta {
+    color: var(--color-text-muted);
+    font-size: 14px;
+    margin-bottom: 24px;
+}
+
+.match-hero__scoreboard {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 24px;
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.match-hero__team {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.match-hero__logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--brand-black);
+    color: var(--brand-yellow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Oswald', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    overflow: hidden;
+    border: 3px solid var(--brand-yellow);
+}
+
+.match-hero__logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.match-hero__name {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.match-hero__score .score {
+    font-size: 48px;
+}
+
+.match-hero__vs {
+    font-family: 'Oswald', sans-serif;
+    font-size: 32px;
+    color: var(--color-text-muted);
+    font-weight: 300;
+}
+
+.match-hero__result,
+.match-hero__status {
+    margin-top: 8px;
+    font-size: 14px;
+    color: var(--color-text-muted);
+}
+
+.match-hero__comment {
+    margin-top: 24px;
+    color: var(--color-text-muted);
+    font-style: italic;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ============================================================================
+   Events — голы, карточки, передачи
+   ========================================================================= */
+
+.event-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.event-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 16px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    margin-bottom: 8px;
+}
+
+.event-item__minute {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    color: var(--brand-orange);
+    min-width: 40px;
+}
+
+.event-item__type {
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+    font-size: 11px;
+    font-weight: 600;
+    background: var(--color-bg);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-family: 'Oswald', sans-serif;
+}
+
+.event-item__type--goal {
+    background: rgba(25, 135, 84, 0.15);
+    color: var(--color-success);
+}
+
+.event-item__type--assist {
+    background: rgba(13, 110, 253, 0.15);
+    color: #0D6EFD;
+}
+
+.event-item__type--yellow {
+    background: rgba(255, 193, 7, 0.2);
+    color: #664D03;
+}
+
+.event-item__type--red {
+    background: rgba(220, 53, 69, 0.15);
+    color: var(--color-danger);
+}
+
+.event-item__match {
+    color: var(--color-text-muted);
+    margin-left: auto;
+    font-size: 14px;
+}
+
+.event-item__player {
+    font-weight: 500;
+}
+
+.event-item__player-number {
+    color: var(--color-text-muted);
+    font-size: 13px;
+    font-weight: 400;
+    margin-left: 4px;
+}

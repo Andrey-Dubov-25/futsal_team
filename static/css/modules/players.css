@@ -1,0 +1,145 @@
+/* ============================================================================
+   Players grid + Player detail
+   ========================================================================= */
+
+.players-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.player-card {
+    display: block;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    color: var(--color-text);
+    text-decoration: none;
+    transition: transform var(--transition), box-shadow var(--transition),
+                border-color var(--transition);
+    position: relative;
+}
+
+.player-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--brand-yellow);
+    color: var(--color-text);
+}
+
+.player-card__photo {
+    aspect-ratio: 1;
+    background: var(--color-bg);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.player-card__photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.player-card__photo-placeholder {
+    font-size: 64px;
+    font-weight: 700;
+    color: var(--brand-yellow);
+    opacity: 0.5;
+    font-family: 'Oswald', sans-serif;
+}
+
+.player-card__number {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--brand-yellow);
+    color: var(--brand-black);
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 4px 12px;
+    border-radius: var(--radius-sm);
+    letter-spacing: 0.05em;
+}
+
+.player-card__name {
+    padding: 16px 16px 4px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1.3;
+}
+
+.player-card__first-name {
+    font-weight: 400;
+    color: var(--color-text-muted);
+    font-size: 14px;
+}
+
+.player-card__position {
+    padding: 0 16px 16px;
+    font-size: 12px;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-family: 'Oswald', sans-serif;
+}
+
+/* ============================================================================
+   Player detail
+   ========================================================================= */
+
+.player-detail {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 40px;
+    margin-bottom: 48px;
+    align-items: start;
+}
+
+.player-detail__photo {
+    aspect-ratio: 1;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.player-detail__photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.player-detail__photo-placeholder {
+    font-size: 96px;
+    font-weight: 700;
+    color: var(--brand-yellow);
+    opacity: 0.5;
+    font-family: 'Oswald', sans-serif;
+}
+
+.player-detail__number {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--brand-orange);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: 'Oswald', sans-serif;
+}
+
+.player-detail__name {
+    font-size: 32px;
+    margin: 8px 0;
+}
+
+.player-detail__nickname {
+    color: var(--color-text-muted);
+    font-style: italic;
+    margin: 0 0 24px;
+}

@@ -1,0 +1,181 @@
+/* ============================================================================
+   Header + Footer + Theme toggle
+   ========================================================================= */
+
+.header {
+    background: var(--brand-black);
+    color: white;
+    border-bottom: 3px solid var(--brand-yellow);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.header__logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: white;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: transform var(--transition);
+}
+
+.header__logo:hover {
+    color: white;
+    transform: scale(1.02);
+}
+
+.header__logo-img {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--brand-yellow);
+    box-shadow: 0 0 0 3px rgba(255, 213, 0, 0.15);
+    transition: box-shadow var(--transition);
+}
+
+.header__logo:hover .header__logo-img {
+    box-shadow: 0 0 0 5px rgba(255, 213, 0, 0.25);
+}
+
+.header__logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.05;
+}
+
+.header__logo-title {
+    font-size: 20px;
+    letter-spacing: 0.08em;
+}
+
+.header__logo-subtitle {
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--brand-yellow);
+    letter-spacing: 0.15em;
+    margin-top: 2px;
+}
+
+.header__nav {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.header__nav a {
+    color: rgba(255, 255, 255, 0.85);
+    font-family: 'Oswald', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    transition: color var(--transition), background var(--transition);
+    position: relative;
+}
+
+.header__nav a:hover,
+.header__nav a.active {
+    color: var(--brand-yellow);
+    background: rgba(255, 213, 0, 0.08);
+}
+
+.header__auth {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.header__auth form {
+    margin: 0;
+}
+
+.header__auth button.btn {
+    cursor: pointer;
+    font-family: inherit;
+}
+
+/* Переключатель темы */
+.theme-toggle {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: background var(--transition), transform var(--transition);
+    margin-right: 4px;
+}
+
+.theme-toggle:hover {
+    background: rgba(255, 213, 0, 0.2);
+    transform: scale(1.05);
+}
+
+/* ============================================================================
+   Footer
+   ========================================================================= */
+
+.footer {
+    background: var(--brand-black);
+    color: rgba(255, 255, 255, 0.7);
+    padding: 32px 0 24px;
+    border-top: 3px solid var(--brand-yellow);
+    font-size: 14px;
+    margin-top: 64px;
+}
+
+.footer__inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.footer__brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: white;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.footer__logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--brand-yellow);
+}
+
+.footer__copy {
+    color: rgba(255, 255, 255, 0.5);
+}

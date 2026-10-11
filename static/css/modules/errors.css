@@ -1,0 +1,41 @@
+/* ============================================================================
+   Error pages 404 / 500
+   ========================================================================= */
+
+.error-page {
+    text-align: center;
+    padding: 60px 20px 80px;
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.error-page__code {
+    font-family: 'Oswald', sans-serif;
+    font-size: 140px;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--brand-yellow);
+    opacity: 0.85;
+    letter-spacing: -4px;
+    margin-bottom: 8px;
+    text-shadow: 0 4px 24px rgba(255, 213, 0, 0.3);
+}
+
+.error-page__title {
+    font-size: 32px;
+    margin: 0 0 16px;
+}
+
+.error-page__text {
+    color: var(--color-text-muted);
+    font-size: 17px;
+    margin: 0 0 32px;
+    line-height: 1.6;
+}
+
+.error-page__actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}

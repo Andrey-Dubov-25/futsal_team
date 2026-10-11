@@ -1,0 +1,80 @@
+/* ============================================================================
+   Trainings list + Training row
+   ========================================================================= */
+
+.trainings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.trainings-list--past {
+    opacity: 0.85;
+}
+
+.training-row {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 20px;
+    padding: 16px 20px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-left: 4px solid var(--brand-yellow);
+    border-radius: var(--radius);
+}
+
+.training-row--cancelled {
+    border-left-color: var(--color-danger);
+    opacity: 0.7;
+}
+
+.training-row--cancelled .training-row__title {
+    text-decoration: line-through;
+    text-decoration-color: var(--color-text-muted);
+}
+
+.training-row__date {
+    text-align: center;
+    line-height: 1.1;
+    align-self: start;
+    font-family: 'Oswald', sans-serif;
+}
+
+.training-row__date-day {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.training-row__date-month {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    letter-spacing: 0.08em;
+}
+
+.training-row__title {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 17px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.training-row__meta {
+    font-size: 14px;
+    color: var(--color-text-muted);
+    margin-top: 4px;
+}
+
+.training-row__coach {
+    font-size: 14px;
+    color: var(--color-text-muted);
+    margin-top: 4px;
+}
+
+.training-row__comment {
+    font-size: 14px;
+    color: var(--color-text-muted);
+    margin-top: 8px;
+    font-style: italic;
+}

@@ -180,6 +180,19 @@ SITE_NAME = c.SITE_NAME
 SITE_DESCRIPTION = c.SITE_DESCRIPTION
 SITE_KEYWORDS = c.SITE_KEYWORDS
 
+# =============================================================================
+# О клубе
+# =============================================================================
+
+SITE_SLOGAN = c.SITE_SLOGAN
+SITE_SHORT_DESCRIPTION = c.SITE_SHORT_DESCRIPTION
+SITE_HISTORY = c.SITE_HISTORY
+SITE_CONTACT_PHONE = c.SITE_CONTACT_PHONE
+SITE_CONTACT_EMAIL = c.SITE_CONTACT_EMAIL
+SITE_CONTACT_VK = c.SITE_CONTACT_VK
+SITE_CONTACT_TELEGRAM = c.SITE_CONTACT_TELEGRAM
+SITE_CITY = c.SITE_CITY
+
 
 # =============================================================================
 # Production settings

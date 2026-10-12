@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load l10n %}
+
+{% block title %}О клубе — МФК «Восход»{% endblock %}
+
+{% block meta_description %}
+{{ short_description }}
+{% endblock %}
+
+{% block content %}
+<section class="section">
+
+    {# Hero-блок #}
+    <div class="about-hero">
+        <img src="{% static 'img/logo.png' %}"
+             alt="МФК «Восход»"
+             class="about-hero__logo">
+        <div class="about-hero__text">
+            <h1 class="about-hero__title">МФК «Восход»</h1>
+            <div class="about-hero__city">
+                {{ city }} · с 2021 года
+            </div>
+            <p class="about-hero__slogan">
+                «{{ slogan }}»
+            </p>
+            <p class="about-hero__description">
+                {{ short_description }}
+            </p>
+        </div>
+    </div>
+
+    {# Сводка #}
+    {% if snapshot %}
+        <h2 class="section__title">Клуб в цифрах</h2>
+        <div class="about-stats">
+            {% if snapshot.founded_year %}
+                <div class="about-stat">
+                    <div class="about-stat__value">
+                        {{ snapshot.founded_year }}
+                    </div>
+                    <div class="about-stat__label">Год основания</div>
+                </div>
+            {% endif %}
+
+            {% if snapshot.ranking_place %}
+                <div class="about-stat about-stat--rank">
+                    <div class="about-stat__value">
+                        {{ snapshot.ranking_place }}
+                    </div>
+                    <div class="about-stat__label">
+                        Место в рейтинге befutsal
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="about-stat">
+                <div class="about-stat__value">
+                    {{ snapshot.total_matches }}
+                </div>
+                <div class="about-stat__label">Игр за всё время</div>
+            </div>
+
+            <div class="about-stat about-stat--win">
+                <div class="about-stat__value">
+                    {{ snapshot.total_won }}
+                </div>
+                <div class="about-stat__label">
+                    Побед ({{ snapshot.win_rate|unlocalize }}%)
+                </div>
+            </div>
+
+            <div class="about-stat">
+                <div class="about-stat__value">
+                    {{ snapshot.total_goals_scored }}
+                </div>
+                <div class="about-stat__label">Голов забито</div>
+            </div>
+
+            <div class="about-stat">
+                <div class="about-stat__value">
+                    {{ snapshot.total_goals_conceded }}
+                </div>
+                <div class="about-stat__label">Голов пропущено</div>
+            </div>
+        </div>
+    {% endif %}
+
+    {# История #}
+    {% if history %}
+        <h2 class="section__title">История клуба</h2>
+        <div class="about-history">
+            {{ history|linebreaks }}
+        </div>
+    {% endif %}
+
+    {# Контакты #}
+    <h2 class="section__title">Связаться с нами</h2>
+    <div class="about-contacts">
+        {% if contact_vk %}
+            <a href="{{ contact_vk }}"
+               target="_blank"
+               rel="noopener"
+               class="about-contact about-contact--vk">
+                <div class="about-contact__icon">💬</div>
+                <div class="about-contact__info">
+                    <div class="about-contact__label">ВКонтакте</div>
+                    <div class="about-contact__value">
+                        Группа команды
+                    </div>
+                </div>
+            </a>
+        {% endif %}
+
+        {% if contact_telegram %}
+            <a href="{{ contact_telegram }}"
+               target="_blank"
+               rel="noopener"
+               class="about-contact about-contact--tg">
+                <div class="about-contact__icon">✈️</div>
+                <div class="about-contact__info">
+                    <div class="about-contact__label">Telegram</div>
+                    <div class="about-contact__value">
+                        Канал команды
+                    </div>
+                </div>
+            </a>
+        {% endif %}
+
+        {% if contact_phone %}
+            <a href="tel:{{ contact_phone }}"
+               class="about-contact">
+                <div class="about-contact__icon">📞</div>
+                <div class="about-contact__info">
+                    <div class="about-contact__label">Телефон</div>
+                    <div class="about-contact__value">
+                        {{ contact_phone }}
+                    </div>
+                </div>
+            </a>
+        {% endif %}
+
+        {% if contact_email %}
+            <a href="mailto:{{ contact_email }}"
+               class="about-contact">
+                <div class="about-contact__icon">✉️</div>
+                <div class="about-contact__info">
+                    <div class="about-contact__label">Email</div>
+                    <div class="about-contact__value">
+                        {{ contact_email }}
+                    </div>
+                </div>
+            </a>
+        {% endif %}
+    </div>
+
+    {# Ссылка на Befutsal #}
+    <div class="about-befutsal">
+        <div class="about-befutsal__text">
+            <strong>Полная статистика клуба</strong> доступна на сайте
+            городской федерации футбола — там собраны все матчи,
+            турнирные таблицы и рейтинг команд.
+        </div>
+        <a href="https://befutsal.ru/club.php?t=224668574"
+           target="_blank"
+           rel="noopener"
+           class="btn btn--primary">
+            Профиль на Befutsal ↗
+        </a>
+    </div>
+
+</section>
+{% endblock %}

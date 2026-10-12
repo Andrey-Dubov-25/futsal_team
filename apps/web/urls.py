@@ -21,6 +21,7 @@ urlpatterns = [
     path('profile/', views.profile_view, name='profile'),
     # Основные страницы
     path('', views.home, name='home'),
+    path('about/', views.about, name='about'),
     path('players/', views.players_list, name='players-list'),
     path(
         'players/<int:pk>/',

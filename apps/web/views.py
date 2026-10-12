@@ -1,5 +1,6 @@
 """View-функции для HTML-страниц."""
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
@@ -405,5 +406,26 @@ def tournaments_list(request):
             'active_tournaments': active,
             'past_tournaments': past,
             'snapshot': snapshot,
+        },
+    )
+
+
+def about(request):
+    """Страница «О клубе»."""
+    snapshot = BefutsalSnapshot.objects.first()
+
+    return render(
+        request,
+        'about/index.html',
+        {
+            'snapshot': snapshot,
+            'slogan': settings.SITE_SLOGAN,
+            'short_description': settings.SITE_SHORT_DESCRIPTION,
+            'history': settings.SITE_HISTORY,
+            'contact_phone': settings.SITE_CONTACT_PHONE,
+            'contact_email': settings.SITE_CONTACT_EMAIL,
+            'contact_vk': settings.SITE_CONTACT_VK,
+            'contact_telegram': settings.SITE_CONTACT_TELEGRAM,
+            'city': settings.SITE_CITY,
         },
     )

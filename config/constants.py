@@ -126,3 +126,16 @@ SITE_CONTACT_TELEGRAM = ''  # если нет — оставить пустым
 
 """Город команды."""
 SITE_CITY = 'Владимир'
+
+# --- ВКонтакте ---
+VK_API_BASE_URL = 'https://api.vk.com/method'
+VK_API_VERSION = '5.199'
+VK_GROUP_SCREEN_NAME = 'voshodchane'
+VK_GROUP_OWNER_ID = -230450774
+VK_REQUEST_TIMEOUT = 10
+VK_POSTS_COUNT = 30
+
+VK_EXTERNAL_ID_MAX_LENGTH = 50
+VK_POST_LINK = 'https://vk.com/wall{owner_id}_{post_id}'
+
+VK_TITLE_MAX_LENGTH = 100

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'apps.training',
     'apps.gallery',
     'apps.league',
+    'apps.vk',
     'apps.api',
     'apps.web',
 ]
@@ -246,3 +247,6 @@ if not DEBUG:
             },
         },
     }
+
+# --- ВКонтакте ---
+VK_ACCESS_TOKEN = env('VK_ACCESS_TOKEN', default='')

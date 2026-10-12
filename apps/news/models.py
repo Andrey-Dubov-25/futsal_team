@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.utils import timezone
 from django.utils.text import slugify
 from unidecode import unidecode
 
@@ -7,7 +8,16 @@ from config import constants as c
 
 
 class NewsPost(models.Model):
-    title = models.CharField('Заголовок', max_length=c.NEWS_TITLE_MAX_LENGTH)
+    """Новость команды — своя или из ВК."""
+
+    class Source(models.TextChoices):
+        SITE = 'SITE', 'С сайта'
+        VK = 'VK', 'ВКонтакте'
+
+    title = models.CharField(
+        'Заголовок',
+        max_length=c.NEWS_TITLE_MAX_LENGTH,
+    )
     slug = models.SlugField(
         'Слаг',
         max_length=c.NEWS_SLUG_MAX_LENGTH,
@@ -15,7 +25,10 @@ class NewsPost(models.Model):
         blank=True,
     )
     cover = models.ImageField(
-        'Обложка', upload_to='news/', blank=True, null=True
+        'Обложка',
+        upload_to='news/',
+        blank=True,
+        null=True,
     )
     excerpt = models.CharField(
         'Краткое описание',
@@ -32,7 +45,37 @@ class NewsPost(models.Model):
         verbose_name='Автор',
     )
     is_published = models.BooleanField('Опубликовано', default=True)
-    published_at = models.DateTimeField('Дата публикации', auto_now_add=True)
+
+    # --- Источник (для ВК-постов) ---
+    source = models.CharField(
+        'Источник',
+        max_length=10,
+        choices=Source.choices,
+        default=Source.SITE,
+    )
+    external_id = models.CharField(
+        'ID поста во ВКонтакте',
+        max_length=c.VK_EXTERNAL_ID_MAX_LENGTH,
+        unique=True,
+        null=True,
+        blank=True,
+        help_text='Формат: <owner_id>_<post_id>, например -230450774_330',
+    )
+    external_url = models.URLField(
+        'Ссылка на источник',
+        blank=True,
+        help_text='Прямая ссылка на пост в ВК',
+    )
+    has_video = models.BooleanField(
+        'Содержит видео',
+        default=False,
+        help_text='Если True — показываем кнопку «Смотреть видео в ВК»',
+    )
+
+    published_at = models.DateTimeField(
+        'Дата публикации',
+        default=timezone.now,
+    )
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
@@ -44,14 +87,37 @@ class NewsPost(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        """Сгенерировать ASCII-slug из заголовка при первом сохранении."""
+        """Сгенерировать ASCII-slug из заголовка при первом сохранении.
+
+        Если slug занят — добавляем числовой суффикс (-2, -3, ...).
+        """
         if not self.slug:
             transliterated = unidecode(self.title)
-            self.slug = slugify(transliterated)
-            # если получился пустой (например, только эмодзи) — fallback
-            if not self.slug:
-                self.slug = f'news-{self.pk or "new"}'
+            base_slug = slugify(transliterated) or f'news-{self.pk or "new"}'
+
+            self.slug = base_slug
+
+            # Уникализация
+            counter = 1
+            while (
+                NewsPost.objects.exclude(pk=self.pk)
+                .filter(slug=self.slug)
+                .exists()
+            ):
+                counter += 1
+                self.slug = f'{base_slug}-{counter}'
+
         super().save(*args, **kwargs)
+
+    @property
+    def is_from_vk(self):
+        """Новость загружена из ВК."""
+        return self.source == self.Source.VK
+
+    @property
+    def is_from_site(self):
+        """Новость создана вручную."""
+        return self.source == self.Source.SITE
 
 
 class Comment(models.Model):

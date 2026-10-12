@@ -23,7 +23,9 @@ def test_homepage_uses_base_template(client):
     """Страница использует базовый шаблон."""
     response = client.get(reverse('web:home'))
     assert b'<!DOCTYPE html>' in response.content
-    assert 'Мини-футбольная команда'.encode() in response.content
+    assert 'МФК «Восход»'.encode() in response.content
+    assert b'header' in response.content
+    assert b'footer' in response.content
 
 
 def test_homepage_contains_header_and_footer(client):

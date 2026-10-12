@@ -24,12 +24,28 @@ from apps.training.models import Training
 from config import constants as c
 
 from .forms import CommentForm, LoginForm, RegisterForm
-from .services import get_player_stats, get_team_stats
+from .services import (
+    get_active_tournaments,
+    get_player_stats,
+    get_recent_form,
+    get_recent_news,
+    get_team_stats,
+    get_top_scorers,
+    get_upcoming_match,
+)
 
 
 def home(request):
     """Главная страница."""
-    return render(request, 'home.html')
+    context = {
+        'upcoming_match': get_upcoming_match(),
+        'form': get_recent_form(limit=5),
+        'top_scorers': get_top_scorers(limit=3),
+        'recent_news': get_recent_news(limit=3),
+        'active_tournaments': get_active_tournaments(limit=3),
+        'team_stats': get_team_stats(),
+    }
+    return render(request, 'home.html', context)
 
 
 def players_list(request):

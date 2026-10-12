@@ -1,9 +1,14 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Главная — Мини-футбольная команда{% endblock %}
+{% block title %}МФК «Восход» — Мини-футбольный клуб из Владимира{% endblock %}
 
 {% block content %}
+
+{# ====================================================================== #}
+{# HERO #}
+{# ====================================================================== #}
+
 <section class="hero">
     <div class="hero__inner">
         <div>
@@ -27,51 +32,270 @@
     </div>
 </section>
 
-<section class="section">
-    <h2 class="section__title">Скоро на сайте</h2>
-    <div class="cards">
-        <article class="card">
-            <a href="{% url 'web:matches-list' %}" class="card">
-                <h3>Матчи</h3>
-                <p>Расписание ближайших игр и результаты прошедших.</p>
+{# ====================================================================== #}
+{# БЛИЖАЙШИЙ МАТЧ + ФОРМА #}
+{# ====================================================================== #}
+
+<section class="home-top">
+    {# Ближайший матч #}
+    <div class="home-top__match">
+        {% if upcoming_match %}
+            <div class="home-match">
+                <div class="home-match__label">Следующий матч</div>
+
+                <div class="home-match__scoreboard">
+                    <div class="home-match__team">
+                        <div class="home-match__logo">В</div>
+                        <div class="home-match__name">Восход</div>
+                    </div>
+
+                    <div class="home-match__vs">vs</div>
+
+                    <div class="home-match__team">
+                        <div class="home-match__logo home-match__logo--opp">
+                            {{ upcoming_match.opponent|slice:":1"|upper }}
+                        </div>
+                        <div class="home-match__name">
+                            {{ upcoming_match.opponent }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="home-match__meta">
+                    <div class="home-match__date">
+                        {{ upcoming_match.date|date:"d E, H:i" }}
+                    </div>
+                    <div class="home-match__location">
+                        {% if upcoming_match.is_home %}
+                            <span class="badge badge--home">Дом</span>
+                        {% else %}
+                            <span class="badge badge--away">Гости</span>
+                        {% endif %}
+                        {{ upcoming_match.location }}
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="home-match home-match--empty">
+                <div class="home-match__label">Следующий матч</div>
+                <div class="home-match__empty-text">
+                    Ближайших матчей пока нет
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    {# Форма команды #}
+    <div class="home-top__form">
+        <div class="home-form">
+            <div class="home-form__label">Форма команды</div>
+
+            {% if form %}
+                <div class="home-form__badges">
+                    {% for item in form %}
+                        <div class="form-badge form-badge--{{ item.result|lower }}"
+                             title="{{ item.match.opponent }}: {{ item.match.our_score }}:{{ item.match.opponent_score }}">
+                            {{ item.result }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="home-form__caption">
+                    Последние {{ form|length }} матчей
+                </div>
+            {% else %}
+                <div class="home-form__empty">
+                    Матчей пока нет
+                </div>
+            {% endif %}
+
+            {% if team_stats.matches_total %}
+                <div class="home-form__stats">
+                    <div class="home-form__stat">
+                        <span>{{ team_stats.matches_won }}</span>
+                        <small>побед</small>
+                    </div>
+                    <div class="home-form__stat">
+                        <span>{{ team_stats.matches_drawn }}</span>
+                        <small>ничьих</small>
+                    </div>
+                    <div class="home-form__stat">
+                        <span>{{ team_stats.matches_lost }}</span>
+                        <small>поражений</small>
+                    </div>
+                </div>
+            {% endif %}
+
+            <a href="{% url 'web:stats-team' %}"
+               class="btn btn--ghost btn--small home-form__link">
+                Подробная статистика →
             </a>
-        </article>
-        <article class="card">
-            <a href="{% url 'web:players-list' %}" class="card">
-                <h3>Состав</h3>
-                <p>Карточки игроков: номера, позиции, фото.</p>
-            </a>
-        </article>
-        <article class="card">
-            <a href="{% url 'web:staff-list' %}" class="card">
-                <h3>Тренеры</h3>
-                <p>Тренерский и административный состав команды.</p>
-            </a>
-        </article>
-        <article class="card">
-            <a href="{% url 'web:stats-team' %}" class="card">
-                <h3>Статистика</h3>
-                <p>Таблица бомбардиров, форма команды.</p>
-            </a>
-        </article>
-        <article class="card">
-            <a href="{% url 'web:news-list' %}" class="card">
-                <h3>Новости</h3>
-                <p>Обновления команды, комментарии болельщиков.</p>
-            </a>
-        </article>
-        <article class="card">
-            <a href="{% url 'web:trainings-list' %}" class="card">
-                <h3>Тренировки</h3>
-                <p>Расписание занятий: время, место, тренер.</p>
-            </a>
-        </article>
-        <article class="card">
-            <a href="{% url 'web:gallery-list' %}" class="card">
-                <h3>Галерея</h3>
-                <p>Фото с матчей, турниров и событий.</p>
-            </a>
-        </article>
+        </div>
     </div>
 </section>
+
+{# ====================================================================== #}
+{# ТОП-3 БОМБАРДИРА #}
+{# ====================================================================== #}
+
+{% if top_scorers %}
+    <section class="section">
+        <div class="section-header">
+            <h2 class="section__title">Лучшие игроки</h2>
+            <a href="{% url 'web:stats-players' %}"
+               class="section-header__link">
+                Все бомбардиры →
+            </a>
+        </div>
+
+        <div class="top-scorers">
+            {% for item in top_scorers %}
+                <a href="{% url 'web:player-detail' item.player.pk %}"
+                   class="top-scorer top-scorer--{{ forloop.counter }}">
+                    <div class="top-scorer__rank">
+                        {{ forloop.counter }}
+                    </div>
+
+                    <div class="top-scorer__photo">
+                        {% if item.player.photo %}
+                            <img src="{{ item.player.photo.url }}"
+                                 alt="{{ item.player.full_name }}">
+                        {% else %}
+                            <div class="top-scorer__photo-placeholder">
+                                {{ item.player.number|default:"—" }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="top-scorer__name">
+                        {{ item.player.last_name }}
+                        <span>{{ item.player.first_name }}</span>
+                    </div>
+
+                    <div class="top-scorer__number">
+                        #{{ item.player.number|default:"—" }}
+                    </div>
+
+                    <div class="top-scorer__stats">
+                        <div class="top-scorer__stat">
+                            <span class="top-scorer__stat-value">
+                                {{ item.goals }}
+                            </span>
+                            <span class="top-scorer__stat-label">гол</span>
+                        </div>
+                        <div class="top-scorer__stat">
+                            <span class="top-scorer__stat-value">
+                                {{ item.assists }}
+                            </span>
+                            <span class="top-scorer__stat-label">пас</span>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </section>
+{% endif %}
+
+{# ====================================================================== #}
+{# ТУРНИРЫ #}
+{# ====================================================================== #}
+
+{% if active_tournaments %}
+    <section class="section">
+        <div class="section-header">
+            <h2 class="section__title">Текущий сезон</h2>
+            <a href="{% url 'web:tournaments-list' %}"
+               class="section-header__link">
+                Все турниры →
+            </a>
+        </div>
+
+        <div class="home-tournaments">
+            {% for t in active_tournaments %}
+                <div class="home-tournament">
+                    <div class="home-tournament__name">
+                        {{ t.name }}
+                    </div>
+                    <div class="home-tournament__row">
+                        <div class="home-tournament__stat">
+                            <strong>{{ t.matches }}</strong>
+                            <small>игр</small>
+                        </div>
+                        <div class="home-tournament__stat home-tournament__stat--win">
+                            <strong>{{ t.won }}</strong>
+                            <small>побед</small>
+                        </div>
+                        <div class="home-tournament__stat">
+                            <strong>{{ t.points }}</strong>
+                            <small>очков</small>
+                        </div>
+                        {% if t.place %}
+                            <div class="home-tournament__stat home-tournament__stat--place">
+                                <strong>
+                                    {% if t.place == 1 %}🥇
+                                    {% elif t.place == 2 %}🥈
+                                    {% elif t.place == 3 %}🥉
+                                    {% endif %}
+                                    {{ t.place }}
+                                </strong>
+                                <small>место</small>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+{% endif %}
+
+{# ====================================================================== #}
+{# ПОСЛЕДНИЕ НОВОСТИ #}
+{# ====================================================================== #}
+
+{% if recent_news %}
+    <section class="section">
+        <div class="section-header">
+            <h2 class="section__title">Последние новости</h2>
+            <a href="{% url 'web:news-list' %}"
+               class="section-header__link">
+                Все новости →
+            </a>
+        </div>
+
+        <div class="news-list">
+            {% for post in recent_news %}
+                <article class="news-card{% if post.is_from_vk %} news-card--vk{% endif %}">
+                    <a href="{% url 'web:news-detail' post.slug %}"
+                       class="news-card__link">
+                        {% if post.cover %}
+                            <div class="news-card__cover">
+                                <img src="{{ post.cover.url }}"
+                                     alt="{{ post.title }}"
+                                     loading="lazy">
+                            </div>
+                        {% endif %}
+                        <div class="news-card__body">
+                            <div class="news-card__meta">
+                                <time class="news-card__date"
+                                      datetime="{{ post.published_at|date:'c' }}">
+                                    {{ post.published_at|date:"d.m.Y" }}
+                                </time>
+                                {% if post.is_from_vk %}
+                                    <span class="news-card__badge news-card__badge--vk">ВК</span>
+                                {% endif %}
+                                {% if post.has_video %}
+                                    <span class="news-card__badge news-card__badge--video">🎥 Видео</span>
+                                {% endif %}
+                            </div>
+                            <h3 class="news-card__title">{{ post.title }}</h3>
+                            {% if post.excerpt %}
+                                <p class="news-card__excerpt">{{ post.excerpt }}</p>
+                            {% endif %}
+                        </div>
+                    </a>
+                </article>
+            {% endfor %}
+        </div>
+    </section>
+{% endif %}
+
 {% endblock %}

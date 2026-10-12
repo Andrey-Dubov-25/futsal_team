@@ -1,0 +1,22 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+<div id="content-main">
+    <h1>Синхронизация завершена</h1>
+
+    <div style="background: #f8f8f8; padding: 15px; border: 1px solid #ddd;
+                font-family: monospace; white-space: pre-wrap; margin: 20px 0;">
+{{ result }}
+    </div>
+
+    <div class="submit-row">
+        <a href="{% url 'admin:news_newspost_changelist' %}"
+           class="button default">
+            Смотреть новости
+        </a>
+        <a href="{% url 'admin:index' %}" class="button">
+            В админку
+        </a>
+    </div>
+</div>
+{% endblock %}

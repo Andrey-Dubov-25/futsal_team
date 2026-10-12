@@ -15,11 +15,74 @@ class CommentInline(admin.TabularInline):
 
 @admin.register(NewsPost)
 class NewsPostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'author', 'is_published', 'published_at')
-    list_filter = ('is_published', 'published_at')
-    search_fields = ('title', 'content')
+    """Новости команды — свои и из ВК."""
+
+    list_display = (
+        'title',
+        'source',
+        'external_id',
+        'has_video',
+        'author',
+        'is_published',
+        'published_at',
+    )
+    list_filter = (
+        'source',
+        'is_published',
+        'has_video',
+        'published_at',
+    )
+    search_fields = (
+        'title',
+        'content',
+        'external_id',
+    )
     prepopulated_fields = {'slug': ('title',)}
+    date_hierarchy = 'published_at'
     inlines = [CommentInline]
+
+    readonly_fields = (
+        'external_id',
+        'external_url',
+    )
+
+    fieldsets = (
+        (
+            'Основное',
+            {
+                'fields': (
+                    'title',
+                    'slug',
+                    'excerpt',
+                    'content',
+                    'cover',
+                    'author',
+                    'is_published',
+                ),
+            },
+        ),
+        (
+            'Источник',
+            {
+                'fields': (
+                    'source',
+                    'external_id',
+                    'external_url',
+                    'has_video',
+                ),
+                'classes': ('collapse',),
+            },
+        ),
+        (
+            'Даты',
+            {
+                'fields': (
+                    'published_at',
+                    'updated_at',
+                ),
+            },
+        ),
+    )
 
 
 @admin.register(Comment)

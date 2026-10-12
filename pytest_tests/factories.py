@@ -94,6 +94,8 @@ class NewsPostFactory(factory.django.DjangoModelFactory):
     excerpt = factory.Faker('sentence', locale='ru_RU')
     content = factory.Faker('paragraph', locale='ru_RU')
     is_published = True
+    source = NewsPost.Source.SITE
+    has_video = False
 
 
 class CommentFactory(factory.django.DjangoModelFactory):

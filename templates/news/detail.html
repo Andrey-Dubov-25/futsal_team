@@ -14,18 +14,29 @@
         ← Все новости
     </a>
 
-    <article class="news-article">
+    <article class="news-article{% if post.is_from_vk %} news-article--vk{% endif %}">
         <header class="news-article__header">
-            <time class="news-article__date"
-                  datetime="{{ post.published_at|date:'c' }}">
-                {{ post.published_at|date:"d.m.Y" }}
-            </time>
+            <div class="news-article__meta">
+                <time class="news-article__date"
+                    datetime="{{ post.published_at|date:'c' }}">
+                    {{ post.published_at|date:"d.m.Y" }}
+                </time>
+                {% if post.is_from_vk %}
+                    <span class="news-article__source">
+                        Источник:
+                        <a href="{{ post.external_url }}"
+                        target="_blank"
+                        rel="noopener">
+                            ВКонтакте ↗
+                        </a>
+                    </span>
+                {% elif post.author %}
+                    <span class="news-article__source">
+                        Автор: {{ post.author.username }}
+                    </span>
+                {% endif %}
+            </div>
             <h1 class="news-article__title">{{ post.title }}</h1>
-            {% if post.author %}
-                <div class="news-article__author">
-                    Автор: {{ post.author.username }}
-                </div>
-            {% endif %}
         </header>
 
         {% if post.cover %}
@@ -37,6 +48,17 @@
         <div class="news-article__content">
             {{ post.content|linebreaks }}
         </div>
+
+        {% if post.has_video %}
+            <div class="news-article__video-cta">
+                <a href="{{ post.external_url }}"
+                target="_blank"
+                rel="noopener"
+                class="btn btn--primary">
+                    🎥 Смотреть видео в ВК ↗
+                </a>
+            </div>
+        {% endif %}
     </article>
 
     <section class="comments-section"

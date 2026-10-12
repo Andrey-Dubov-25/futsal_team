@@ -1,0 +1,26 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+<div id="content-main">
+    <h1>Синхронизация ВКонтакте</h1>
+
+    <p>
+        Команда <code>sync_vk</code> загрузит последние 30 постов
+        из группы <strong>vk.ru/voshodchane</strong> и создаст
+        или обновит новости на сайте.
+    </p>
+
+    <div class="submit-row">
+        <form method="post">
+            {% csrf_token %}
+            <input type="submit"
+                   value="🔄 Запустить sync_vk"
+                   class="default">
+        </form>
+    </div>
+
+    <p style="margin-top: 20px;">
+        <a href="{% url 'admin:index' %}">← Вернуться в админку</a>
+    </p>
+</div>
+{% endblock %}

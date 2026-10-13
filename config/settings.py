@@ -1,6 +1,8 @@
+import sys
 from datetime import timedelta
 from pathlib import Path
 
+import dj_database_url
 import environ
 
 from . import constants as c
@@ -13,7 +15,23 @@ environ.Env.read_env(BASE_DIR / '.env')
 
 SECRET_KEY = env('SECRET_KEY', default='dev-insecure-key-change-me')
 DEBUG = env('DEBUG', default=True)
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
+ALLOWED_HOSTS = env.list(
+    'ALLOWED_HOSTS',
+    default=['localhost', '127.0.0.1'],
+)
+
+# Render автоматически даёт переменную RENDER_EXTERNAL_HOSTNAME
+RENDER_EXTERNAL_HOSTNAME = env('RENDER_EXTERNAL_HOSTNAME', default='')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+
+# CSRF trusted origins
+CSRF_TRUSTED_ORIGINS = env.list(
+    'CSRF_TRUSTED_ORIGINS',
+    default=[],
+)
+if RENDER_EXTERNAL_HOSTNAME:
+    CSRF_TRUSTED_ORIGINS.append(f'https://{RENDER_EXTERNAL_HOSTNAME}')
 
 
 # Application definition
@@ -25,6 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',  # ← для медиа
+    'cloudinary',  # ← для медиа
+    'whitenoise.runserver_nostatic',  # ← для статики
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
@@ -45,6 +66,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -78,16 +100,40 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env('POSTGRES_DB', default='futsal'),
-        'USER': env('POSTGRES_USER', default='futsal'),
-        'PASSWORD': env('POSTGRES_PASSWORD', default='futsal'),
-        'HOST': env('POSTGRES_HOST', default='db'),
-        'PORT': env('POSTGRES_PORT', default='5432'),
+DATABASE_URL = env('DATABASE_URL', default='')
+
+# === ВРЕМЕННАЯ ОТЛАДКА — удалим после деплоя ===
+
+
+print(f'[DB DEBUG] DATABASE_URL present: {bool(DATABASE_URL)}', flush=True)
+print(f'[DB DEBUG] DATABASE_URL length: {len(DATABASE_URL)}', flush=True)
+print(f'[DB DEBUG] DATABASE_URL prefix: {DATABASE_URL[:40]}', flush=True)
+print(f'[DB DEBUG] DATABASE_URL suffix: {DATABASE_URL[-40:]}', flush=True)
+print(f'[DB DEBUG] python executable: {sys.executable}', flush=True)
+# === /ОТЛАДКА ===
+
+if DATABASE_URL:
+    DATABASES = {
+        'default': dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=600,
+            conn_health_checks=True,
+            ssl_require=True,
+        ),
     }
-}
+    print('[DB DEBUG] Using dj_database_url', flush=True)
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': env('POSTGRES_DB', default='futsal'),
+            'USER': env('POSTGRES_USER', default='futsal'),
+            'PASSWORD': env('POSTGRES_PASSWORD', default='futsal'),
+            'HOST': env('POSTGRES_HOST', default='db'),
+            'PORT': env('POSTGRES_PORT', default='5432'),
+        }
+    }
+    print('[DB DEBUG] Using FALLBACK POSTGRES_HOST=db', flush=True)
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -120,11 +166,6 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
-
-STATIC_URL = 'static/'
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -135,8 +176,43 @@ STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
-MEDIA_URL = 'media/'
+USE_CLOUDINARY = env.bool('USE_CLOUDINARY', default=False)
+
+if USE_CLOUDINARY:
+    # Продакшн: медиа в Cloudinary
+    STORAGES = {
+        'default': {
+            'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage',
+        },
+        'staticfiles': {
+            'BACKEND': (
+                'whitenoise.storage.' 'CompressedManifestStaticFilesStorage'
+            ),
+        },
+    }
+else:
+    # Локально: медиа в media/
+    STORAGES = {
+        'default': {
+            'BACKEND': 'django.core.files.storage.FileSystemStorage',
+        },
+        'staticfiles': {
+            'BACKEND': (
+                'whitenoise.storage.' 'CompressedManifestStaticFilesStorage'
+            ),
+        },
+    }
+
+# Cloudinary (медиа)
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': env('CLOUDINARY_CLOUD_NAME', default=''),
+    'API_KEY': env('CLOUDINARY_API_KEY', default=''),
+    'API_SECRET': env('CLOUDINARY_API_SECRET', default=''),
+}
+
+MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
 
 AUTH_USER_MODEL = 'accounts.User'
 

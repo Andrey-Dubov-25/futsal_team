@@ -69,7 +69,7 @@ class MatchEvent(models.Model):
         max_length=c.MATCH_EVENT_TYPE_MAX_LENGTH,
         choices=EventType.choices,
     )
-    minute = models.PositiveSmallIntegerField('Минута')
+    minute = models.PositiveSmallIntegerField('Минута', null=True, blank=True)
 
     class Meta:
         verbose_name = 'Событие матча'

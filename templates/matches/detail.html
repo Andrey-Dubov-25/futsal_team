@@ -65,7 +65,9 @@
             {% for event in events %}
                 <li class="event-item">
                     <span class="event-item__minute">
-                        {{ event.minute }}'
+                        {% if event.minute %}
+                            <span class="event-item__minute">{{ event.minute }}'</span>
+                        {% endif %}
                     </span>
                     <span class="event-item__type event-item__type--{{ event.event_type|lower }}">
                         {{ event.get_event_type_display }}
